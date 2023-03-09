@@ -122,5 +122,3 @@ if __name__ == "__main__":
     plt.xlabel('První dimenze')
     plt.ylabel('Druhá dimenze')
     plt.show()
-
-    lmao
