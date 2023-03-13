@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def normal_density(x, mean, variance):
-    return np.exp(-(x - mean)**2 / (2 * variance)) / np.sqrt(2 * np.pi * variance)
+    return np.exp(-(x - mean) ** 2 / (2 * variance)) / np.sqrt(2 * np.pi * variance)
 
 
 def bayesian_classifier(data, clusters):
