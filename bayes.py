@@ -43,3 +43,4 @@ def bayesian_classifier(data, clusters):
     plt.ylim(min_values[1], max_values[1])
     plt.title('Bayes')
     plt.show()
+    return meshgrid_classes

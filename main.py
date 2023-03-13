@@ -102,5 +102,6 @@ if __name__ == "__main__":
     #         plot_clusters(clusters_opt)
     #         break
 
-    clusters = kmeans.kmeans(data, 3)
-    bayes.bayesian_classifier(data, clusters)
+    # clusters = kmeans.kmeans(data, 3)
+    # bayes.bayesian_classifier(data, clusters)
+
