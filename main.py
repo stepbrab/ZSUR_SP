@@ -63,7 +63,7 @@ if __name__ == "__main__":
     data = load("data.txt")
     dm = dist_matrix(data)
 
-    data = data[::10]
+    data = data[::100]
     # print(len(data))
     #
     # for point in data:  # start plot
@@ -110,8 +110,8 @@ if __name__ == "__main__":
 
     # Výpočet pravděpodobnosti pro každý bod v mřížce
     predictions = np.zeros(xx.shape)
-    for i, xi in enumerate(xx):
-        for j, yj in enumerate(yy):
+    for i, xi in enumerate(yy):
+        for j, yj in enumerate(xx):
             predictions[i, j] = bayes.classify([xi[j], yj[j]], means, variances)
 
     # Vykreslení výsledků
