@@ -61,9 +61,10 @@ def plot_clusters(clusters):
 
 if __name__ == "__main__":
     data = load("data.txt")
-    dm = dist_matrix(data)
 
     data = data[::100]
+
+    dm = dist_matrix(data)
     # print(len(data))
     #
     # for point in data:  # start plot
@@ -107,7 +108,8 @@ if __name__ == "__main__":
     x_min, x_max = data[:, 0].min() - 1, data[:, 0].max() + 1
     y_min, y_max = data[:, 1].min() - 1, data[:, 1].max() + 1
     xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1), np.arange(y_min, y_max, 0.1))
-
+    print(xx)
+    print(yy)
     # Výpočet pravděpodobnosti pro každý bod v mřížce
     predictions = np.zeros(xx.shape)
     for i, xi in enumerate(yy):
