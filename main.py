@@ -13,6 +13,7 @@ import kmeans
 import maximin
 
 import bayes
+import vector_quantization
 
 
 def load(infile):
@@ -22,7 +23,7 @@ def load(infile):
     data = []
     for line in file:
         vector = line.split()
-        for i in range(0, len(vector)):
+        for i in range(len(vector)):
             const = 0
             if vector[i][0] == "-":
                 const = 1
@@ -64,7 +65,8 @@ if __name__ == "__main__":
 
     data = data[::10]
 
-    dm = dist_matrix(data)
+    # dm = dist_matrix(data)
+
     # print(len(data))
     #
     # for point in data:  # start plot
@@ -103,5 +105,14 @@ if __name__ == "__main__":
     #         break
 
     clusters = kmeans.kmeans(data, 3)
-    bayes.bayesian_classifier(data, clusters)
+    # bayes.bayesian_classifier(data, clusters)
+
+    # Vektorová kvantizace s kódovou knihou o velikosti 5 a 10 iteracemi
+    codes, codebook = vector_quantization.vq(data, 3, 10)
+
+    # Vykreslení trénovacích dat s barvami odpovídajícími přiřazeným kódům
+    plt.scatter(data[:, 0], data[:, 1], c=codes)
+    # Vykreslení kódové knihy jako červených křížků
+    plt.scatter(codebook[:, 0], codebook[:, 1], marker='x', c='red')
+    plt.show()
 
