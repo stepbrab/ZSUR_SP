@@ -7,7 +7,7 @@ def vq(data, codebook_size, num_iterations):
     codebook = data[np.random.choice(data.shape[0], codebook_size, replace=False)]
 
     for i in range(num_iterations):
-        # Nejbližší sousedé každého bodu v trénovacích datech
+        # Nejbližší sousedé každého bodu v trénovacích datech od centroidu (codebook) asi nevims
         distances = np.linalg.norm(data[:, np.newaxis, :] - codebook, axis=2)
         closest_codes = np.argmin(distances, axis=1)
 
