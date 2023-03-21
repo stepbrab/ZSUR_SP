@@ -7,6 +7,7 @@ import iterative_opt
 import numpy as np
 
 import divisive
+import k_nearest_neighbour
 
 import kmeans
 
@@ -110,6 +111,7 @@ if __name__ == "__main__":
 
     # Vektorová kvantizace s kódovou knihou o velikosti 5 a 10 iteracemi
     vector_quantization.vq_plot(data, 10, clusters)
+
 
 
 
