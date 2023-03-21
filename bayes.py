@@ -38,7 +38,7 @@ def bayesian_classifier(data, clusters):
     plt.figure(figsize=(8, 8))
     plt.contourf(x_values, y_values, meshgrid_classes, alpha=0.2, levels=np.arange(num_classes + 1) - 0.5, cmap='jet')
     for i in range(num_classes):
-        plt.scatter(clusters[i][:, 0], clusters[i][:, 1], cmap='jet')
+        plt.scatter(clusters[i][:, 0], clusters[i][:, 1])
     plt.xlim(min_values[0], max_values[0])
     plt.ylim(min_values[1], max_values[1])
     plt.title('Bayes')
