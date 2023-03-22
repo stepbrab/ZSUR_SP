@@ -10,6 +10,7 @@ import divisive
 import k_nearest_neighbour
 
 import kmeans
+import lin_disc_func
 
 import maximin
 
@@ -112,7 +113,9 @@ if __name__ == "__main__":
     # Vektorová kvantizace s kódovou knihou o velikosti 5 a 10 iteracemi
     # vector_quantization.vq_plot(data, 10, clusters)
 
-    k_nearest_neighbour.knn_plot(data, labels, data, 1)
+    # k_nearest_neighbour.knn_plot(data, labels, data, 1)
+
+    ##decision boundary se to jmenuje ty demente
 
 
 
