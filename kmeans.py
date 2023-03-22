@@ -23,7 +23,7 @@ def kmeans(data, amount_of_classes):
 
         centroids = new_centroids
     clusters = [data[labels == i] for i in range(amount_of_classes)]
-    return clusters
+    return clusters, labels
 
 
 def kmeans_bin(data, amount_of_classes, num_splits=10):

@@ -105,12 +105,14 @@ if __name__ == "__main__":
     #         plot_clusters(clusters_opt)
     #         break
 
-    clusters = kmeans.kmeans(data, 3)
+    clusters, labels = kmeans.kmeans(data, 3)
 
     # bayes.bayesian_classifier(data, clusters)
 
     # Vektorová kvantizace s kódovou knihou o velikosti 5 a 10 iteracemi
-    vector_quantization.vq_plot(data, 10, clusters)
+    # vector_quantization.vq_plot(data, 10, clusters)
+
+    k_nearest_neighbour.knn_plot(data, labels, data, 1)
 
 
 

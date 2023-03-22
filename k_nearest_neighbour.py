@@ -2,8 +2,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-def knn_classifier(X_train, y_train, X_test, k=3):
+def knn(X_train, y_train, X_test, k=1):
     y_pred = []
     for i in range(len(X_test)):
         distances = []
@@ -15,30 +14,32 @@ def knn_classifier(X_train, y_train, X_test, k=3):
         k_nearest_labels = [label for (dist, label) in k_nearest_neighbors]
         most_common_label = max(set(k_nearest_labels), key=k_nearest_labels.count)
         y_pred.append(most_common_label)
+    return y_pred
 
-    # create meshgrid
-    h = .02  # step size in the mesh
-    x_min, x_max = np.array(X_train)[:, 0].min() - 1, np.array(X_train)[:, 0].max() + 1
-    y_min, y_max = np.array(X_train)[:, 1].min() - 1, np.array(X_train)[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+def knn_plot(X_train, y_train, X_test, k=1):
+    y_pred = knn(X_train, y_train, X_test, k)
+    # Determination of range of space
+    min_values = np.min(X_train, axis=0)
+    max_values = np.max(X_train, axis=0)
 
-    # predict on meshgrid points
-    Z = np.array(knn_classifier(X_train, y_train, np.c_[xx.ravel(), yy.ravel()], k)).reshape(xx.shape)
+    # Creation of meshgrid
+    x_values, y_values = np.meshgrid(np.linspace(min_values[0], max_values[0], 100),
+                                     np.linspace(min_values[1], max_values[1], 100))
+    meshgrid = np.vstack([x_values.ravel(), y_values.ravel()]).T
 
-    # plot the meshgrid and data points
-    plt.figure()
-    plt.pcolormesh(xx, yy, Z, cmap=plt.cm.Paired)
+    meshgrid_codes = knn(X_train, y_train, meshgrid, k=1)
+    meshgrid_codes = np.array(meshgrid_codes).reshape(x_values.shape)
+
+    plt.figure(figsize=(8, 8))
+    plt.contourf(x_values, y_values, meshgrid_codes, alpha=0.2, levels=np.arange(3 + 1) - 0.5, cmap='jet')
 
     # plot data points
     colors = ['red', 'blue', 'green', 'black', 'purple']
-    for i, color in zip(np.unique(y_train), colors):
-        idx = np.where(np.array(y_train) == i)
+    for i, color in zip(np.unique(y_pred), colors):
+        idx = np.where(np.array(y_pred) == i)
         plt.scatter(np.array(X_train)[idx, 0], np.array(X_train)[idx, 1], color=color, label=i)
 
-    plt.xlim(xx.min(), xx.max())
-    plt.ylim(yy.min(), yy.max())
     plt.title("k-NN classifier")
     plt.legend(loc='best')
     plt.show()
 
-    return y_pred
