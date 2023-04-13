@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-import agglomerative
+from agglomerative import agg
 
 import iterative_opt
 
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
     data = data[::10]
 
-    # dm = dist_matrix(data)
+    dm = dist_matrix(data)
 
     # print(len(data))
     #
@@ -75,23 +75,23 @@ if __name__ == "__main__":
     #     plt.plot(point[0], point[1], marker=".")
     # plt.show()
     #
-    # # x = maximin.mm(data, cutoff)
-    # # for point in x[1]:  # start plot
-    # #     plt.plot(data[point, 0], data[point, 1], "kx", markersize=10)
-    # # plt.show()
-    # # print(x)
-    #
-    # cutoff = np.mean(dm)
-    # amount_of_classes_agg = agglomerative.agg(data, cutoff)
-    # print("Amount of classes estimated by the agglomerative method: ", amount_of_classes_agg)
-    #
-    # amount_of_classes_div = divisive.div(data, 0)
-    # print("Amount of classes estimated by the divisive chain map method: ", amount_of_classes_div)
-    #
-    # cutoff = np.mean(dm)
-    # amount_of_classes_mm = maximin.mm(data, cutoff)
-    # print("Amount of classes estimated by the maximin method: ", amount_of_classes_mm)
-    #
+    # x = maximin.mm(data, cutoff)
+    # for point in x[1]:  # start plot
+    #     plt.plot(data[point, 0], data[point, 1], "kx", markersize=10)
+    # plt.show()
+    # print(x)
+
+    cutoff = np.mean(dm)
+    amount_of_classes_agg = agg(data, cutoff)
+    print("Amount of classes estimated by the agglomerative method: ", amount_of_classes_agg)
+
+    amount_of_classes_div = divisive.div(data, 0)
+    print("Amount of classes estimated by the divisive chain map method: ", amount_of_classes_div)
+
+    cutoff = np.mean(dm)
+    amount_of_classes_mm = maximin.mm(data, cutoff)
+    print("Amount of classes estimated by the maximin method: ", amount_of_classes_mm)
+
     # if amount_of_classes_agg == amount_of_classes_div == amount_of_classes_mm:
     #     kmeans = kmeans.kmeans(data, amount_of_classes_agg)
     # else:
