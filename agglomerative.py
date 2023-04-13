@@ -6,6 +6,7 @@ import numpy as np
 
 from scipy.cluster.hierarchy import dendrogram
 
+#I bych rekl ze dobry a ready to send. Mozna dendrogram. Jinak kod good podle me.
 
 def dist_matrix(data):
     # Zkontrolovat
