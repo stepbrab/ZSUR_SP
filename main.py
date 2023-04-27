@@ -72,8 +72,8 @@ if __name__ == "__main__":
     # amount_of_classes_agg = agg(data)
     # print("Amount of classes estimated by the agglomerative method: ", amount_of_classes_agg)
 
-    amount_of_classes_div = divisive.div(data, 0)
-    print("Amount of classes estimated by the divisive chain map method: ", amount_of_classes_div)
+    # amount_of_classes_div = divisive.div(data, 150)
+    # print("Amount of classes estimated by the divisive chain map method: ", amount_of_classes_div)
 
     # cutoff = np.mean(dm) * 1.5
     # amount_of_classes_mm = maximin.mm(data, cutoff)
