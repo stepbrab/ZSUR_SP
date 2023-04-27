@@ -65,7 +65,7 @@ def plot_clusters(clusters):
 if __name__ == "__main__":
     data = load("data.txt")
 
-    data = data[::5]
+    data = data[::10]
 
     dm = dist_matrix(data)
 
@@ -88,7 +88,6 @@ if __name__ == "__main__":
     amount_of_classes_div = divisive.div(data, 0)
     print("Amount of classes estimated by the divisive chain map method: ", amount_of_classes_div)
 
-    cutoff = np.mean(dm)
     amount_of_classes_mm = maximin.mm(data, cutoff)
     print("Amount of classes estimated by the maximin method: ", amount_of_classes_mm)
 
