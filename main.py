@@ -65,7 +65,7 @@ def plot_clusters(clusters):
 if __name__ == "__main__":
     data = load("data.txt")
 
-    data = data[::10]
+    data = data[::5]
 
     dm = dist_matrix(data)
 

@@ -24,7 +24,7 @@ def dist_matrix(data):
 
 def mm(data, cutoff_dist):
     dm = dist_matrix(data)
-    cutoff_dist = np.mean(dm)
+    cutoff_dist = np.mean(dm) #pro data:10 funguje, data:5 nefunguje
     n = dm.shape[0]
     centers = [0]
     dist_to_centers = dm[0]
