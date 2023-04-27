@@ -3,6 +3,7 @@ import math
 import numpy as np
 from matplotlib import pyplot as plt
 
+##to jsem psal ja, tady nejde o kopirovani ale spis to moc nefunguje lmao
 
 def get_J(clusters):
     J = 0
@@ -44,4 +45,9 @@ def it_opt(clusters):       #presouva to i kdyz to J neni lepsi... nijak se neme
                         print("Nový: ", improved_J, ";; s hodnoty: ", s, np.sum(s))
                         diff += 1
                     k += 1
+    plt.figure(figsize=(8, 8))
+    for cluster in clusters:
+        plt.scatter(cluster[:, 0], cluster[:, 1])
+    plt.title("Iter_opt")
+    plt.show()
     return clusters, diff

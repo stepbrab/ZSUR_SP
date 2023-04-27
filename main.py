@@ -2,14 +2,14 @@ import matplotlib.pyplot as plt
 
 from agglomerative import agg
 
-import iterative_opt
+from iterative_opt import it_opt
 
 import numpy as np
 
 import divisive
 import k_nearest_neighbour
 
-import kmeans
+from kmeans import kmeans, kmeans_bin
 import lin_disc_func
 
 import maximin
@@ -69,6 +69,8 @@ if __name__ == "__main__":
 
     dm = dist_matrix(data)
 
+
+
     # amount_of_classes_agg = agg(data)
     # print("Amount of classes estimated by the agglomerative method: ", amount_of_classes_agg)
 
@@ -84,16 +86,13 @@ if __name__ == "__main__":
     # else:
     #     print("Try a different cutoff distance.")
 
-    # diff = 0
-    # while diff == 0:
-    #     clusters = kmeans.kmeans(data, 3)
-    #     clusters_opt, diff = iterative_opt.it_opt(clusters)
-    #     if diff > 0:
-    #         plot_clusters(clusters)
-    #         plot_clusters(clusters_opt)
-    #         break
 
-    clusters, labels = kmeans.kmeans(data, 3)
+
+    clusters, labels = kmeans(data, amount_of_classes=3)
+    # clusters, labels = kmeans_bin(data, amount_of_classes=3)
+
+    print(it_opt(clusters)[1])
+
 
     # bayes.bayesian_classifier(data, clusters)
 

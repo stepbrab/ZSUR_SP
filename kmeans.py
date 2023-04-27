@@ -2,6 +2,7 @@ import numpy as np
 
 from matplotlib import pyplot as plt
 
+#asi good, kdyztak prepsat... aby to vypadalo jinak
 
 def kmeans(data, amount_of_classes):
     # inicializace centroidů
@@ -23,6 +24,13 @@ def kmeans(data, amount_of_classes):
 
         centroids = new_centroids
     clusters = [data[labels == i] for i in range(amount_of_classes)]
+
+    plt.figure(figsize=(8, 8))
+    for cluster in clusters:
+        plt.scatter(cluster[:, 0], cluster[:, 1])
+    plt.title("Kmeans")
+    plt.show()
+
     return clusters, labels
 
 
@@ -64,4 +72,9 @@ def kmeans_bin(data, amount_of_classes, num_splits=10):
 
         centroids = new_centroids
     clusters = [data[labels == i] for i in range(amount_of_classes)]
-    return clusters
+    plt.figure(figsize=(8, 8))
+    for cluster in clusters:
+        plt.scatter(cluster[:, 0], cluster[:, 1])
+    plt.title("Kmeans_bin")
+    plt.show()
+    return clusters, labels
