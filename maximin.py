@@ -1,6 +1,7 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
-
+#V poradku az na vykresleni, taky nevim co ty stredy.. jestli je to ok takhle.. checknu soubory od petra, mozna se taky vyseru na vykresleni protoze vysledek to dava dobrej.
 def dist_matrix(data):
     # Zkontrolovat
     # Výpočet matice vzdáleností
@@ -24,4 +25,25 @@ def mm(data, cutoff_dist):
             dist_to_centers = np.minimum(dist_to_centers, new_d)
         else:
             break
-    return len(centers)
+
+    # Rozdělení bodů do shluků
+    clusters = [[] for _ in range(len(centers))]
+    for i in range(data.shape[0]):
+        distances = dm[i][centers]
+        closest_center_index = np.argmin(distances)
+        clusters[closest_center_index].append(i)
+
+
+    plt.figure(figsize=(8, 8))
+    for i in range(len(clusters)):
+        cluster_indices = clusters[i]
+        cluster_points = data[cluster_indices]
+        plt.scatter(cluster_points[:, 0], cluster_points[:, 1], label=f"Třída {i + 1}")
+
+    plt.scatter(data[centers][:, 0], data[centers][:, 1], marker="x", s=100, linewidth=3, color="black",
+                label="Středy")
+    plt.legend()
+    plt.show()
+
+    amount_of_clusters = len(centers)
+    return amount_of_clusters

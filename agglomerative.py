@@ -15,7 +15,7 @@ def dist_matrix(data):
     return dm
 
 
-def agg(data, cutoff_dist):
+def agg(data):
     dm = dist_matrix(data)
 
     np.fill_diagonal(dm, np.inf)  # set diagonal to infinity
