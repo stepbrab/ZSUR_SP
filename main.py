@@ -91,7 +91,6 @@ if __name__ == "__main__":
     clusters, labels = kmeans(data, amount_of_classes=3)
     # clusters, labels = kmeans_bin(data, amount_of_classes=3)
 
-    print(it_opt(clusters)[1])
 
 
     # bayes.bayesian_classifier(data, clusters)
