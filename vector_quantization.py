@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+#upravit strukturu, pochopit
 
 def vq(data, num_iterations, clusters):
     # Inicializace kódové knihy jako náhodné podmnožiny trénovacích dat

@@ -3,7 +3,7 @@ import math
 import numpy as np
 from matplotlib import pyplot as plt
 
-##to jsem psal ja, tady nejde o kopirovani ale spis to moc nefunguje lmao
+#to jsem psal ja, tady nejde o kopirovani ale spis to moc nefunguje lmao
 
 def get_J(clusters):
     J = 0

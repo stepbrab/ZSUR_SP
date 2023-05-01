@@ -1,6 +1,11 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
-def rosenblatt(train_X, train_y, max_iter=1000):
+
+#disaster
+
+
+def rosenblatt(train_X, train_y, max_iter=10000):
     # Inicializujeme váhy na nulu
     w = np.zeros(train_X.shape[1])
     # Provedeme až max_iter iterací
@@ -17,7 +22,7 @@ def rosenblatt(train_X, train_y, max_iter=1000):
             break
     return w
 
-def constant_increment(train_X, train_y, alpha=0.1, max_iter=1000):
+def constant_increment(train_X, train_y, alpha=0.1, max_iter=10000):
     # Inicializujeme váhy na nulu
     w = np.zeros(train_X.shape[1])
     # Provedeme až max_iter iterací
@@ -30,6 +35,24 @@ def constant_increment(train_X, train_y, alpha=0.1, max_iter=1000):
             if np.sign(output) != train_y[j]:
                 w += alpha * train_y[j] * train_X[j]
     return w
+
+def plot_ros_and_const_incr(train_X, train_y, w_ros, w_const_incr):
+    plt.figure(figsize=(8, 8))
+    # Vykreslíme trénovací data
+    plt.scatter(train_X[:, 0], train_X[:, 1], c=train_y, cmap='bwr')
+
+    # Vykreslíme lineární diskriminační funkce
+    x_min, x_max = plt.xlim()
+    y_min, y_max = plt.ylim()
+    x_plot = np.linspace(x_min, x_max, 100)
+    y_plot = np.linspace(y_min, y_max, 100)
+
+    y_rosenblatt = -(w_ros[0] * x_plot) / w_ros[1]
+    y_constant_increment = -(w_const_incr[0] * x_plot) / w_const_incr[1]
+    plt.plot(x_plot, y_rosenblatt, label='Rosenblatt')
+    plt.plot(y_plot, y_constant_increment, label='Constant increment')
+
+    plt.show()
 
 #Tyto implementace předpokládají, že train_X je matice trénovacích příkladů, train_y je vektor klasifikačních cílů, alpha je konstanta učení a max_iter je maximální počet iterací, které mají být provedeny. Funkce vracejí váhy lineární diskriminační funkce pro daný trénovací dataset.
 

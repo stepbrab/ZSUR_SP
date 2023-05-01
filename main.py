@@ -10,7 +10,7 @@ import divisive
 import k_nearest_neighbour
 
 from kmeans import kmeans, kmeans_bin
-import lin_disc_func
+from lin_disc_func import rosenblatt, constant_increment, plot_ros_and_const_incr
 
 import maximin
 
@@ -99,6 +99,12 @@ if __name__ == "__main__":
     # vector_quantization.vq_plot(data, 10, clusters)
 
     # k_nearest_neighbour.knn_plot(data, labels, data, 1)
+
+    w_rosenblatt = rosenblatt(data, labels)
+    w_constant_increment = constant_increment(data, labels)
+
+    plot_ros_and_const_incr(data, labels, w_rosenblatt, w_constant_increment)
+
 
     ##decision boundary se to jmenuje ty demente
 

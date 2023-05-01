@@ -2,6 +2,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
+#upravit strukturu, pochopit
 def knn(X_train, y_train, X_test, k=1):
     y_pred = []
     for i in range(len(X_test)):
@@ -39,7 +40,7 @@ def knn_plot(X_train, y_train, X_test, k=1):
         idx = np.where(np.array(y_pred) == i)
         plt.scatter(np.array(X_train)[idx, 0], np.array(X_train)[idx, 1], color=color, label=i)
 
-    plt.title("k-NN classifier")
+    plt.title("k-NN")
     plt.legend(loc='best')
     plt.show()
 

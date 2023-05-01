@@ -1,12 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+#upravit strukturu, pochopit
 def normal_density(x, mean, variance):
     return np.exp(-(x - mean) ** 2 / (2 * variance)) / np.sqrt(2 * np.pi * variance)
 
 
-def bayesian_classifier(data, clusters):
+def bayes(data, clusters):
     # Estimation of mean and variance for each class
     means = [np.mean(c, axis=0) for c in clusters]
     variances = [np.var(c, axis=0) for c in clusters]
