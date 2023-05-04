@@ -11,6 +11,7 @@ import k_nearest_neighbour
 
 from kmeans import kmeans, kmeans_bin
 from lin_disc_func import rosenblatt, constant_increment, plot_ros_and_const_incr
+from perceptron import Perceptron
 
 import maximin
 
@@ -100,14 +101,27 @@ if __name__ == "__main__":
 
     # k_nearest_neighbour.knn_plot(data, labels, data, 1)
 
-    w_rosenblatt = rosenblatt(data, labels)
-    w_constant_increment = constant_increment(data, labels)
-
-    plot_ros_and_const_incr(data, labels, w_rosenblatt, w_constant_increment)
+    # w_rosenblatt = rosenblatt(data, labels)
+    # w_constant_increment = constant_increment(data, labels)
+    #
+    # plot_ros_and_const_incr(data, labels, w_rosenblatt, w_constant_increment)
 
 
     ##decision boundary se to jmenuje ty demente
 
+    # Create the perceptron object
+    perceptron_batch_gd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
+    perceptron_sgd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
+
+    # Train the perceptron using Batch Gradient Descent
+    perceptron_batch_gd.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
+    perceptron_sgd.train_sgd(data, labels, num_epochs=100)
+    # Plot the decision boundary
+    plt.subplot(1, 2, 1)
+    perceptron_batch_gd.plot_boundary(data, labels)
+    plt.subplot(1, 2, 2)
+    perceptron_sgd.plot_boundary(data, labels)
+    plt.show()
 
 
 
