@@ -1,16 +1,18 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-#V poradku az na vykresleni, taky nevim co ty stredy.. jestli je to ok takhle.. checknu soubory od petra, mozna se taky vyseru na vykresleni protoze vysledek to dava dobrej.
+
+# V poradku az na vykresleni, taky nevim co ty stredy.. jestli je to ok takhle.. checknu soubory od petra, mozna se taky vyseru na vykresleni protoze vysledek to dava dobrej.
 def dist_matrix(data):
     # Zkontrolovat
     # Výpočet matice vzdáleností
     dm = np.sqrt(np.sum((data[:, np.newaxis, :] - data[np.newaxis, :, :]) ** 2, axis=2))
     return dm
 
+
 def mm(data, cutoff_dist):
     dm = dist_matrix(data)
-    #cutoff dist pro data:10 funguje, data:5 nefunguje
+    # cutoff dist pro data:10 funguje, data:5 nefunguje
     n = dm.shape[0]
     centers = [0]
     dist_to_centers = dm[0]
@@ -32,7 +34,6 @@ def mm(data, cutoff_dist):
         distances = dm[i][centers]
         closest_center_index = np.argmin(distances)
         clusters[closest_center_index].append(i)
-
 
     plt.figure(figsize=(8, 8))
     for i in range(len(clusters)):

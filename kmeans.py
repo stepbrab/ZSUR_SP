@@ -2,7 +2,8 @@ import numpy as np
 
 from matplotlib import pyplot as plt
 
-#asi good, kdyztak prepsat... aby to vypadalo jinak
+
+# asi good, kdyztak prepsat... aby to vypadalo jinak
 
 def kmeans(data, amount_of_classes):
     # inicializace centroidů

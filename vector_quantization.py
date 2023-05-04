@@ -1,7 +1,8 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-#upravit strukturu, pochopit
+
+# upravit strukturu, pochopit
 
 def vq(data, num_iterations, clusters):
     # Inicializace kódové knihy jako náhodné podmnožiny trénovacích dat
@@ -35,7 +36,6 @@ def vq_plot(data, num_iterations, clusters):
 
     meshgrid_codes, _ = vq(meshgrid, 10, clusters)
     meshgrid_codes = meshgrid_codes.reshape(x_values.shape)
-
 
     plt.figure(figsize=(8, 8))
     plt.contourf(x_values, y_values, meshgrid_codes, alpha=0.2, levels=np.arange(codebook_size + 1) - 0.5,

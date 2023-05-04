@@ -3,7 +3,8 @@ import time
 import numpy as np
 from matplotlib import pyplot as plt
 
-#asi nejlepsi vec zatim
+
+# asi nejlepsi vec zatim
 
 def dist_matrix(data):
     # Zkontrolovat
@@ -22,7 +23,7 @@ def div(data, index):
     amount_of_classes = 1
 
     dm = dist_matrix(data)
-    cutoff_dist = np.mean(dm)*len(dm)/1200
+    cutoff_dist = np.mean(dm) * len(dm) / 1200
     print(cutoff_dist)
 
     np.fill_diagonal(dm, np.inf)  # set diagonal to infinity
@@ -67,8 +68,8 @@ def div(data, index):
     for i in range(0, len(values)):
         if values[i] > cutoff_dist:
             amount_of_classes += 1
-            cutoff_x_values.append([data[:][indexes[i-1]][0][0],data[:][indexes[i]][0][0]])
-            cutoff_y_values.append([data[:][indexes[i-1]][0][1],data[:][indexes[i]][0][1]])
+            cutoff_x_values.append([data[:][indexes[i - 1]][0][0], data[:][indexes[i]][0][0]])
+            cutoff_y_values.append([data[:][indexes[i - 1]][0][1], data[:][indexes[i]][0][1]])
 
     for i in range(0, len(values)):
         plot_x_values.append(data[:][indexes[i]][0][0])
@@ -76,12 +77,12 @@ def div(data, index):
 
     plt.plot(plot_x_values, plot_y_values)
     plt.scatter(plot_x_values[0], plot_y_values[0], marker="x", color="k", label="Start bod")
-    plt.scatter(plot_x_values[len(plot_x_values)-1], plot_y_values[len(plot_y_values)-1], marker="x", color="r", label="End bod")
+    plt.scatter(plot_x_values[len(plot_x_values) - 1], plot_y_values[len(plot_y_values) - 1], marker="x", color="r",
+                label="End bod")
 
     for i in range(0, len(cutoff_x_values)):
-        plt.plot(cutoff_x_values[i],cutoff_y_values[i], label=f"Cutoff vzdálenost {i + 1}")
+        plt.plot(cutoff_x_values[i], cutoff_y_values[i], label=f"Cutoff vzdálenost {i + 1}")
     plt.legend()
     plt.show()
-
 
     return amount_of_classes

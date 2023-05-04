@@ -1,7 +1,8 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-#upravit strukturu, pochopit
+
+# upravit strukturu, pochopit
 def normal_density(x, mean, variance):
     return np.exp(-(x - mean) ** 2 / (2 * variance)) / np.sqrt(2 * np.pi * variance)
 

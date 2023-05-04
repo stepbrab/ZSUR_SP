@@ -1,8 +1,10 @@
 import math
-import numpy as np
-import matplotlib.pyplot as plt
 
-#upravit strukturu, pochopit
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+# upravit strukturu, pochopit
 def knn(X_train, y_train, X_test, k=1):
     y_pred = []
     for i in range(len(X_test)):
@@ -16,6 +18,7 @@ def knn(X_train, y_train, X_test, k=1):
         most_common_label = max(set(k_nearest_labels), key=k_nearest_labels.count)
         y_pred.append(most_common_label)
     return y_pred
+
 
 def knn_plot(X_train, y_train, X_test, k=1):
     y_pred = knn(X_train, y_train, X_test, k)
@@ -43,4 +46,3 @@ def knn_plot(X_train, y_train, X_test, k=1):
     plt.title("k-NN")
     plt.legend(loc='best')
     plt.show()
-

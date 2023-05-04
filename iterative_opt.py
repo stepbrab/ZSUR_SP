@@ -1,9 +1,8 @@
-import math
-
 import numpy as np
 from matplotlib import pyplot as plt
 
-#to jsem psal ja, tady nejde o kopirovani ale spis to moc nefunguje lmao
+
+# to jsem psal ja, tady nejde o kopirovani ale spis to moc nefunguje lmao
 
 def get_J(clusters):
     J = 0
@@ -13,7 +12,7 @@ def get_J(clusters):
     return J
 
 
-def it_opt(clusters):       #presouva to i kdyz to J neni lepsi... nijak se nemeni grafy nevim
+def it_opt(clusters):  # presouva to i kdyz to J neni lepsi... nijak se nemeni grafy nevim
     J = get_J(clusters)
     s = [len(clusters[0]), len(clusters[1]), len(clusters[2])]
     s1 = s[0]
