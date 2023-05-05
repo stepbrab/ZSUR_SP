@@ -38,17 +38,6 @@ def dist_matrix(data):
     dm = np.sqrt(np.sum((data[:, np.newaxis, :] - data[np.newaxis, :, :]) ** 2, axis=2))
     return dm
 
-
-def plot_clusters(clusters):
-    for point in clusters[0]:
-        plt.plot(point[0], point[1], marker=".", color='r')
-    for point in clusters[1]:
-        plt.plot(point[0], point[1], marker=".", color='g')
-    for point in clusters[2]:
-        plt.plot(point[0], point[1], marker=".", color='b')
-    plt.show()
-
-
 if __name__ == "__main__":
     data = load("data.txt")
 
