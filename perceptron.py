@@ -43,27 +43,11 @@ class Perceptron:
                     self.bias[targets[i]] -= self.learning_rate
                     self.bias[y] += self.learning_rate
 
-    def train_mbgd(self, inputs, targets, num_epochs, batch_size):
-        for epoch in range(num_epochs):
-            for i in range(0, inputs.shape[0], batch_size):
-                batch_inputs = inputs[i:i + batch_size]
-                batch_targets = targets[i:i + batch_size]
-                predictions = np.argmax(np.dot(batch_inputs, self.weights) + self.bias, axis=1)
-                gradients = np.zeros(self.weights.shape)
-                biases_grad = np.zeros(self.bias.shape)
-                for j in range(batch_inputs.shape[0]):
-                    gradients += np.outer(batch_inputs[j], np.eye(self.weights.shape[1])[batch_targets[j]] -
-                                          np.eye(self.weights.shape[1])[predictions[j]])
-                    biases_grad += np.eye(self.bias.shape[0])[batch_targets[j]] - np.eye(self.bias.shape[0])[
-                        predictions[j]]
-                self.weights += self.learning_rate * gradients / batch_inputs.shape[0]
-                self.bias += self.learning_rate * biases_grad / batch_inputs.shape[0]
-
-    def plot_data(self, inputs, targets):
+    def plot_data(self, targets):
         colors = ['r', 'g', 'b']
         markers = ['o', '^', 's']
         for i in range(targets.max() + 1):
-            plt.scatter(inputs[:, 0][targets == i], inputs[:, 1][targets == i], color=colors[i], marker=markers[i])
+            plt.scatter(self[:, 0][targets == i], self[:, 1][targets == i], color=colors[i], marker=markers[i])
         plt.xlabel('x1')
         plt.ylabel('x2')
         plt.show()
