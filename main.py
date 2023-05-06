@@ -38,6 +38,7 @@ def dist_matrix(data):
     dm = np.sqrt(np.sum((data[:, np.newaxis, :] - data[np.newaxis, :, :]) ** 2, axis=2))
     return dm
 
+
 if __name__ == "__main__":
     data = load("data.txt")
 
@@ -78,10 +79,16 @@ if __name__ == "__main__":
     # Create the perceptron object
     perceptron_batch_gd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
     perceptron_sgd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
+    perceptron_batch_gd_multi = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1, topology='multi')
+    perceptron_sgd_multi = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1, topology='multi')
 
     # Train the perceptron using Batch Gradient Descent
     perceptron_batch_gd.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
     perceptron_sgd.train_sgd(data, labels, num_epochs=100)
+    perceptron_batch_gd_multi.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
+    perceptron_sgd_multi.train_sgd(data, labels, num_epochs=100)
     # Plot the decision boundary
+    perceptron_batch_gd.plot_boundary(data, labels)
+    perceptron_sgd.plot_boundary(data, labels)
     perceptron_batch_gd.plot_boundary(data, labels)
     perceptron_sgd.plot_boundary(data, labels)

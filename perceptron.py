@@ -3,14 +3,19 @@ import numpy as np
 
 
 class Perceptron:
-    def __init__(self, num_inputs, num_outputs, learning_rate=0.1):
+    def __init__(self, num_inputs, num_outputs, learning_rate=0.1, topology='single'):
         self.weights = np.random.randn(num_inputs, num_outputs)
         self.bias = np.zeros(num_outputs)
         self.learning_rate = learning_rate
+        self.topology = topology
 
     def predict(self, inputs):
         weighted_sum = np.dot(inputs, self.weights) + self.bias
         return np.argmax(weighted_sum)
+
+    def predict_multi(self, inputs):
+        weighted_sum = np.dot(inputs, self.weights) + self.bias
+        return weighted_sum
 
     def train_batch_gd(self, inputs, targets, num_epochs, batch_size=None):
         for epoch in range(num_epochs):
@@ -43,11 +48,11 @@ class Perceptron:
                     self.bias[targets[i]] -= self.learning_rate
                     self.bias[y] += self.learning_rate
 
-    def plot_data(self, targets):
+    def plot_data(self, inputs, targets):
         colors = ['r', 'g', 'b']
         markers = ['o', '^', 's']
         for i in range(targets.max() + 1):
-            plt.scatter(self[:, 0][targets == i], self[:, 1][targets == i], color=colors[i], marker=markers[i])
+            plt.scatter(inputs[:, 0][targets == i], inputs[:, 1][targets == i], color=colors[i], marker=markers[i])
         plt.xlabel('x1')
         plt.ylabel('x2')
         plt.show()
@@ -57,7 +62,12 @@ class Perceptron:
         y_min, y_max = inputs[:, 1].min() - 1, inputs[:, 1].max() + 1
         xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1),
                              np.arange(y_min, y_max, 0.1))
-        Z = np.array([self.predict([x1, x2]) for x1, x2 in zip(xx.ravel(), yy.ravel())])
+
+        if self.topology == 'single':
+            Z = np.array([self.predict([x1, x2]) for x1, x2 in zip(xx.ravel(), yy.ravel())])
+        elif self.topology == 'multi':
+            Z = np.array([np.argmax(self.predict_multi([x1, x2])) for x1, x2 in zip(xx.ravel(), yy.ravel())])
+
         Z = Z.reshape(xx.shape)
         plt.contourf(xx, yy, Z, alpha=0.4)
         self.plot_data(inputs, targets)
