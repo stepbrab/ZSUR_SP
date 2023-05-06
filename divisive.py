@@ -13,7 +13,7 @@ def dist_matrix(data):
     return dm
 
 
-def div(data, index):
+def div_plot_get_clusters(data, index, cutoff_dist):
     st = time.time()
 
     firstIndex = index
@@ -23,8 +23,6 @@ def div(data, index):
     amount_of_classes = 1
 
     dm = dist_matrix(data)
-    cutoff_dist = np.mean(dm) * len(dm) / 1200
-    print(cutoff_dist)
 
     np.fill_diagonal(dm, np.inf)  # set diagonal to infinity
 
@@ -58,13 +56,13 @@ def div(data, index):
 
         indexes.append([index])
 
-    plt.figure(figsize=(8, 8))
     plot_x_values = []
     plot_y_values = []
     cutoff_x_values = []
     cutoff_y_values = []
 
     plt.figure(figsize=(8, 8))
+    # plt.title('Metoda řetězové mapy')
     for i in range(0, len(values)):
         if values[i] > cutoff_dist:
             amount_of_classes += 1
@@ -83,6 +81,7 @@ def div(data, index):
     for i in range(0, len(cutoff_x_values)):
         plt.plot(cutoff_x_values[i], cutoff_y_values[i], label=f"Cutoff vzdálenost {i + 1}")
     plt.legend()
+    plt.savefig("./pics/div.eps", format='eps', dpi=300)
     plt.show()
 
     return amount_of_classes

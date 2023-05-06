@@ -45,8 +45,14 @@ def it_opt(clusters):  # presouva to i kdyz to J neni lepsi... nijak se nemeni g
                         diff += 1
                     k += 1
     plt.figure(figsize=(8, 8))
+    i = 0
     for cluster in clusters:
-        plt.scatter(cluster[:, 0], cluster[:, 1])
-    plt.title("Iter_opt")
+        plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
+        i += 1
+    # plt.title("Iter_opt")
+    plt.legend()
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.savefig("./pics/iter_opt.eps", format='eps', dpi=300)
     plt.show()
     return clusters, diff

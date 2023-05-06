@@ -5,8 +5,6 @@ import numpy as np
 
 # from scipy.cluster.hierarchy import dendrogram
 
-# I bych rekl ze dobry a ready to send. Mozna dendrogram. Jinak kod good podle me.
-
 def dist_matrix(data):
     # Zkontrolovat
     # Výpočet matice vzdáleností
@@ -14,10 +12,10 @@ def dist_matrix(data):
     return dm
 
 
-def agg(data):
+def agg_plot_and_get_clusters(data):
     dm = dist_matrix(data)
 
-    np.fill_diagonal(dm, np.inf)  # set diagonal to infinity
+    np.fill_diagonal(dm, np.inf)
 
     dists = np.zeros(dm.shape[0] - 1)
 
@@ -26,7 +24,6 @@ def agg(data):
     while dm.shape[0] > 1:
         x, y = np.unravel_index(np.argmin(dm), dm.shape)
         min_dist = dm[x, y]
-        # update distance matrix
         dm[x, :] = np.minimum(dm[x, :], dm[y, :])
         dm[:, x] = np.minimum(dm[:, x], dm[:, y])
         np.fill_diagonal(dm, np.inf)
@@ -46,8 +43,9 @@ def agg(data):
     x = np.arange(1, len(data))
 
     plt.figure(figsize=(8, 8))
+    plt.title('Metoda shlukové hladiny')
     plt.plot(x[::-1], dists[:])
-    plt.axvline(x=amount_of_clusters, color='k', linestyle='-.')
+    plt.axvline(x=amount_of_clusters, color='k', linestyle='-.', label='Počet shluků' + str(amount_of_clusters))
     plt.axhline(y=dists[-amount_of_clusters], color='r', linestyle='--',
                 label='Shluková hladina h = ' + str(dists[-amount_of_clusters]))
     # plt.xticks(x)
@@ -55,12 +53,15 @@ def agg(data):
     plt.xlim(1, 50)
     plt.gca().invert_xaxis()
     plt.legend(loc='upper left')
+    plt.xlabel('Počet shluků')
+    plt.ylabel('Vzdálenost mezi shluky')
+    plt.savefig("./pics/agg.eps", format='eps', dpi=300)
     plt.show()
-    # plt.savefig("filepath.svg", format='svg', dpi=300)
 
     plt.figure(figsize=(8, 8))
+    plt.title('Metoda shlukové hladiny - zoom')
     plt.plot(x[::-1], dists[:])
-    plt.axvline(x=amount_of_clusters, color='k', linestyle='-.')
+    plt.axvline(x=amount_of_clusters, color='k', linestyle='-.', label='Počet shluků = ' + str(amount_of_clusters))
     plt.axhline(y=dists[-amount_of_clusters], color='r', linestyle='--',
                 label='Shluková hladina h = ' + str(dists[-amount_of_clusters]))
     # plt.xticks(x)
@@ -68,7 +69,9 @@ def agg(data):
     plt.xlim(1, 5)
     plt.gca().invert_xaxis()
     plt.legend(loc='upper left')
+    plt.xlabel('Počet shluků')
+    plt.ylabel('Vzdálenost mezi shluky')
+    plt.savefig("./pics/agg_zoom.eps", format='eps', dpi=300)
     plt.show()
-    # plt.savefig("filepath.svg", format='svg', dpi=300)
 
     return amount_of_clusters

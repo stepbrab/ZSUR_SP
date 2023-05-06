@@ -10,7 +10,7 @@ def dist_matrix(data):
     return dm
 
 
-def mm(data, cutoff_dist):
+def mm_plot_and_get_clusters(data, cutoff_dist):
     dm = dist_matrix(data)
     # cutoff dist pro data:10 funguje, data:5 nefunguje
     n = dm.shape[0]
@@ -36,14 +36,16 @@ def mm(data, cutoff_dist):
         clusters[closest_center_index].append(i)
 
     plt.figure(figsize=(8, 8))
+    # plt.title('Metoda maximin')
     for i in range(len(clusters)):
         cluster_indices = clusters[i]
         cluster_points = data[cluster_indices]
-        plt.scatter(cluster_points[:, 0], cluster_points[:, 1], label=f"Třída {i + 1}")
+        plt.scatter(cluster_points[:, 0], cluster_points[:, 1], label=f"Shluk {i + 1}")
 
     plt.scatter(data[centers][:, 0], data[centers][:, 1], marker="x", s=100, linewidth=3, color="black",
                 label="Středy")
     plt.legend()
+    plt.savefig("./pics/mm.eps", format='eps', dpi=300)
     plt.show()
 
     amount_of_clusters = len(centers)

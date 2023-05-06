@@ -27,9 +27,15 @@ def kmeans(data, amount_of_classes):
     clusters = [data[labels == i] for i in range(amount_of_classes)]
 
     plt.figure(figsize=(8, 8))
+    i = 0
     for cluster in clusters:
-        plt.scatter(cluster[:, 0], cluster[:, 1])
-    plt.title("Kmeans")
+        plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
+        i += 1
+    # plt.title("Kmeans")
+    plt.legend()
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.savefig("./pics/kmeans.eps", format='eps', dpi=300)
     plt.show()
 
     return clusters, labels
@@ -53,7 +59,7 @@ def kmeans_bin(data, amount_of_classes, num_splits=10):
 
             # rozdělení clusteru na podmnožiny
             num_points = len(cluster_points)
-            split_points = np.linspace(0, num_points, num_splits + 1, dtype=np.int)[1:-1]
+            split_points = np.linspace(0, num_points, num_splits + 1, dtype=int)[1:-1]
             sub_clusters = np.split(cluster_points, split_points)
 
             # nalezení centroidu pro každou podmnožinu
@@ -73,9 +79,15 @@ def kmeans_bin(data, amount_of_classes, num_splits=10):
 
         centroids = new_centroids
     clusters = [data[labels == i] for i in range(amount_of_classes)]
+    i = 0
     plt.figure(figsize=(8, 8))
     for cluster in clusters:
-        plt.scatter(cluster[:, 0], cluster[:, 1])
-    plt.title("Kmeans_bin")
+        plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
+        i += 1
+    # plt.title("Kmeans_bin")
+    plt.legend()
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.savefig("./pics/kmeans_bin.eps", format='eps', dpi=300)
     plt.show()
     return clusters, labels
