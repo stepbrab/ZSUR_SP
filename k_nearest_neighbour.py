@@ -31,7 +31,7 @@ def knn_plot(X_train, y_train, X_test, k=1):
                                      np.linspace(min_values[1], max_values[1], 100))
     meshgrid = np.vstack([x_values.ravel(), y_values.ravel()]).T
 
-    meshgrid_codes = knn(X_train, y_train, meshgrid, k=1)
+    meshgrid_codes = knn(X_train, y_train, meshgrid, k)
     meshgrid_codes = np.array(meshgrid_codes).reshape(x_values.shape)
 
     plt.figure(figsize=(8, 8))
@@ -41,8 +41,11 @@ def knn_plot(X_train, y_train, X_test, k=1):
     colors = ['red', 'blue', 'green', 'black', 'purple']
     for i, color in zip(np.unique(y_pred), colors):
         idx = np.where(np.array(y_pred) == i)
-        plt.scatter(np.array(X_train)[idx, 0], np.array(X_train)[idx, 1], color=color, label=i)
+        plt.scatter(np.array(X_train)[idx, 0], np.array(X_train)[idx, 1], color=color, label=f"Shluk {i + 1}")
 
-    plt.title("k-NN")
+    plt.xlabel('x')
+    plt.ylabel('y')
+    # plt.title("k-NN")
     plt.legend(loc='best')
+    plt.savefig("./pics/knn_k=2.eps", format='eps', dpi=300)
     plt.show()

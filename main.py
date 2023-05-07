@@ -16,6 +16,13 @@ from perceptron import Perceptron
 
 from iterative_opt import it_opt
 
+from bayes import bayes
+
+from vector_quantization import vq_plot
+
+from k_nearest_neighbour import knn_plot
+
+from lin_disc_func import plot_ros_and_const_incr, compare_iterations, rosenblatt, constant_increment
 
 def load(infile):
     # Zkontrolovat
@@ -72,35 +79,37 @@ if __name__ == "__main__":
     #         "Počet shluků všech metod se liší. Je třeba zkusit jiný cutoff_dist, či změnit počáteční bod metody řetězové mapy.")
 
     clusters, labels = kmeans(data, amount_of_classes=3)
-    clusters_bin, labels_bin = kmeans_bin(data, amount_of_classes=3)
+    # clusters_bin, labels_bin = kmeans_bin(data, amount_of_classes=3)
 
-    it_opt(clusters)
-    it_opt(clusters_bin)
-    # bayes.bayesian_classifier(data, clusters)
+    # it_opt(clusters)
+    # it_opt(clusters_bin)
+    # bayes(data, clusters)
 
     # Vektorová kvantizace s kódovou knihou o velikosti 5 a 10 iteracemi
-    # vector_quantization.vq_plot(data, 10, clusters)
+    # vq_plot(data, 10, clusters)
 
-    # k_nearest_neighbour.knn_plot(data, labels, data, 1)
+    # knn_plot(data, labels, data, 2)
 
     # w_rosenblatt = rosenblatt(data, labels)
     # w_constant_increment = constant_increment(data, labels)
-    #
     # plot_ros_and_const_incr(data, labels, w_rosenblatt, w_constant_increment)
+    # compare_iterations(data, labels)
 
-    # # Create the perceptron object
-    # perceptron_batch_gd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
-    # perceptron_sgd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
-    # perceptron_batch_gd_multi = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1, topology='multi')
-    # perceptron_sgd_multi = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1, topology='multi')
-    #
-    # # Train the perceptron using Batch Gradient Descent
-    # perceptron_batch_gd.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
-    # perceptron_sgd.train_sgd(data, labels, num_epochs=100)
-    # perceptron_batch_gd_multi.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
-    # perceptron_sgd_multi.train_sgd(data, labels, num_epochs=100)
-    # # Plot the decision boundary
-    # perceptron_batch_gd.plot_boundary(data, labels)
-    # perceptron_sgd.plot_boundary(data, labels)
-    # perceptron_batch_gd.plot_boundary(data, labels)
-    # perceptron_sgd.plot_boundary(data, labels)
+
+
+    # Create the perceptron object
+    perceptron_batch_gd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
+    perceptron_sgd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
+    perceptron_batch_gd_multi = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1, topology='multi')
+    perceptron_sgd_multi = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1, topology='multi')
+
+    # Train the perceptron using Batch Gradient Descent
+    perceptron_batch_gd.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
+    perceptron_sgd.train_sgd(data, labels, num_epochs=100)
+    perceptron_batch_gd_multi.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
+    perceptron_sgd_multi.train_sgd(data, labels, num_epochs=100)
+    # Plot the decision boundary
+    perceptron_batch_gd.plot_boundary(data, labels)
+    perceptron_sgd.plot_boundary(data, labels)
+    perceptron_batch_gd_multi.plot_boundary(data, labels)
+    perceptron_sgd_multi.plot_boundary(data, labels)

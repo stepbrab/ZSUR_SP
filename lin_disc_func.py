@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-# disaster
+# nefunguje
 
 
 def rosenblatt(train_X, train_y, max_iter=10000):
@@ -53,8 +53,31 @@ def plot_ros_and_const_incr(train_X, train_y, w_ros, w_const_incr):
     y_constant_increment = -(w_const_incr[0] * x_plot) / w_const_incr[1]
     plt.plot(x_plot, y_rosenblatt, label='Rosenblatt')
     plt.plot(y_plot, y_constant_increment, label='Constant increment')
-
+    plt.legend()
+    plt.savefig("./pics/ros_incr.eps", format='eps', dpi=300)
     plt.show()
+
+def compare_iterations(train_X, train_y):
+    alphas = [0.01, 0.05, 0.1, 0.2]
+    iterations_rosenblatt = []
+    iterations_const_incr = []
+
+    for alpha in alphas:
+        w_ros = rosenblatt(train_X, train_y)
+        w_const_incr = constant_increment(train_X, train_y, alpha=alpha)
+
+        # Počet iterací Rosenblattova algoritmu
+        iterations_rosenblatt.append(len(w_ros))
+
+        # Počet iterací upravené metody konstantních přírůstků
+        iterations_const_incr.append(len(w_const_incr))
+
+    for i, alpha in enumerate(alphas):
+        print(f"Alpha: {alpha}")
+        print(f"Počet iterací Rosenblattova algoritmu: {iterations_rosenblatt[i]}")
+        print(f"Počet iterací upravené metody konstantních přírůstků: {iterations_const_incr[i]}")
+        print()
+    return iterations_rosenblatt, iterations_const_incr
 
 # Tyto implementace předpokládají, že train_X je matice trénovacích příkladů, train_y je vektor klasifikačních cílů, alpha je konstanta učení a max_iter je maximální počet iterací, které mají být provedeny. Funkce vracejí váhy lineární diskriminační funkce pro daný trénovací dataset.
 

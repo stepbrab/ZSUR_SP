@@ -38,10 +38,16 @@ def bayes(data, clusters):
     # Plot meshgrid and clusters
     plt.figure(figsize=(8, 8))
     plt.contourf(x_values, y_values, meshgrid_classes, alpha=0.2, levels=np.arange(num_classes + 1) - 0.5, cmap='jet')
+    i = 0
     for i in range(num_classes):
-        plt.scatter(clusters[i][:, 0], clusters[i][:, 1])
+        plt.scatter(clusters[i][:, 0], clusters[i][:, 1], label=f"Shluk {i + 1}")
+        i += 1
     plt.xlim(min_values[0], max_values[0])
     plt.ylim(min_values[1], max_values[1])
-    plt.title('Bayes')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.legend()
+    # plt.title('Bayes')
+    plt.savefig("./pics/bayes.eps", format='eps', dpi=300)
     plt.show()
     return meshgrid_classes

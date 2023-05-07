@@ -44,8 +44,12 @@ def vq_plot(data, num_iterations, clusters):
     clusters = [data[codes == i] for i in range(codebook_size)]
 
     for i in range(codebook_size):
-        plt.scatter(clusters[i][:, 0], clusters[i][:, 1])
+        plt.scatter(clusters[i][:, 0], clusters[i][:, 1], label=f"Shluk {i + 1}")
 
     # Vykreslení kódové knihy jako červených křížků
-    plt.scatter(codebook[:, 0], codebook[:, 1], marker='x', c='red')
+    plt.scatter(codebook[:, 0], codebook[:, 1], marker='x', c='k', label="Body kódové knihy")
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.legend()
+    plt.savefig("./pics/vq.eps", format='eps', dpi=300)
     plt.show()

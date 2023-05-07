@@ -50,14 +50,13 @@ class Perceptron:
 
     def plot_data(self, inputs, targets):
         colors = ['r', 'g', 'b']
-        markers = ['o', '^', 's']
         for i in range(targets.max() + 1):
-            plt.scatter(inputs[:, 0][targets == i], inputs[:, 1][targets == i], color=colors[i], marker=markers[i])
-        plt.xlabel('x1')
-        plt.ylabel('x2')
-        plt.show()
+            plt.scatter(inputs[:, 0][targets == i], inputs[:, 1][targets == i], color=colors[i], label=f"Shluk {i + 1}")
+        plt.xlabel('x')
+        plt.ylabel('y')
 
     def plot_boundary(self, inputs, targets):
+        plt.figure(figsize=(8, 8))
         x_min, x_max = inputs[:, 0].min() - 1, inputs[:, 0].max() + 1
         y_min, y_max = inputs[:, 1].min() - 1, inputs[:, 1].max() + 1
         xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1),
@@ -71,3 +70,6 @@ class Perceptron:
         Z = Z.reshape(xx.shape)
         plt.contourf(xx, yy, Z, alpha=0.4)
         self.plot_data(inputs, targets)
+        plt.legend()
+        plt.savefig("./pics/perceptron.eps", format='eps', dpi=300)
+        plt.show()
