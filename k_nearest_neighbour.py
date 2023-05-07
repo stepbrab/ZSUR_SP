@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-# upravit strukturu, pochopit
 def knn(X_train, y_train, X_test, k=1):
     y_pred = []
     for i in range(len(X_test)):
@@ -22,11 +21,9 @@ def knn(X_train, y_train, X_test, k=1):
 
 def knn_plot(X_train, y_train, X_test, k=1):
     y_pred = knn(X_train, y_train, X_test, k)
-    # Determination of range of space
     min_values = np.min(X_train, axis=0)
     max_values = np.max(X_train, axis=0)
 
-    # Creation of meshgrid
     x_values, y_values = np.meshgrid(np.linspace(min_values[0], max_values[0], 100),
                                      np.linspace(min_values[1], max_values[1], 100))
     meshgrid = np.vstack([x_values.ravel(), y_values.ravel()]).T
@@ -37,7 +34,6 @@ def knn_plot(X_train, y_train, X_test, k=1):
     plt.figure(figsize=(8, 8))
     plt.contourf(x_values, y_values, meshgrid_codes, alpha=0.2, levels=np.arange(3 + 1) - 0.5, cmap='jet')
 
-    # plot data points
     colors = ['red', 'blue', 'green', 'black', 'purple']
     for i, color in zip(np.unique(y_pred), colors):
         idx = np.where(np.array(y_pred) == i)
@@ -45,7 +41,7 @@ def knn_plot(X_train, y_train, X_test, k=1):
 
     plt.xlabel('x')
     plt.ylabel('y')
-    # plt.title("k-NN")
+    plt.title("Klasifikátor podle nejbližšího souseda, počet sousedů k = " + str(k))
     plt.legend(loc='best')
-    plt.savefig("./pics/knn_k=2.eps", format='eps', dpi=300)
+    # plt.savefig("./pics/knn_k=2.eps", format='eps', dpi=300)
     plt.show()

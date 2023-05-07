@@ -3,27 +3,19 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-# asi good, kdyztak prepsat... aby to vypadalo jinak
+# kmeans_bin nevim, zda ok
 
 def kmeans(data, amount_of_classes):
-    # inicializace centroidů
-    centroids = data[np.random.choice(len(data), amount_of_classes, replace=False)]
+    centers = data[np.random.choice(len(data), amount_of_classes, replace=False)]
 
     while True:
-        # vypočítání vzdálenosti mezi všemi body a centroidy
-        distances = np.sqrt(((data - centroids[:, np.newaxis]) ** 2).sum(axis=2))
-
-        # přiřazení každého bodu k nejbližšímu centroidu
+        distances = np.sqrt(((data - centers[:, np.newaxis]) ** 2).sum(axis=2))
         labels = np.argmin(distances, axis=0)
-
-        # výpočet nových centroidů
-        new_centroids = np.array([data[labels == i].mean(axis=0) for i in range(amount_of_classes)])
-
-        # pokud se nové centroidy shodují s těmi předchozími, ukončit iteraci
-        if np.allclose(new_centroids, centroids):
+        new_centers = np.array([data[labels == i].mean(axis=0) for i in range(amount_of_classes)])
+        if np.allclose(new_centers, centers):
             break
 
-        centroids = new_centroids
+        centers = new_centers
     clusters = [data[labels == i] for i in range(amount_of_classes)]
 
     plt.figure(figsize=(8, 8))
@@ -31,63 +23,47 @@ def kmeans(data, amount_of_classes):
     for cluster in clusters:
         plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
         i += 1
-    # plt.title("Kmeans")
+    plt.title("K-means")
     plt.legend()
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.savefig("./pics/kmeans.eps", format='eps', dpi=300)
+    # plt.savefig("./pics/kmeans.eps", format='eps', dpi=300)
     plt.show()
 
     return clusters, labels
 
 
-def kmeans_bin(data, amount_of_classes, num_splits=10):
-    # inicializace centroidů
-    centroids = data[np.random.choice(len(data), amount_of_classes, replace=False)]
+def kmeans_bin(data, amount_of_classes):  # ?
+    centers = data[np.random.choice(len(data), amount_of_classes, replace=False)]
     while True:
-        # vypočítání vzdálenosti mezi všemi body a centroidy
-        distances = np.sqrt(((data - centroids[:, np.newaxis]) ** 2).sum(axis=2))
-
-        # přiřazení každého bodu k nejbližšímu centroidu
+        distances = np.linalg.norm(data - centers[:, np.newaxis], axis=2)
         labels = np.argmin(distances, axis=0)
-
-        # výpočet nových centroidů
-        new_centroids = []
+        new_centers = []
         for i in range(amount_of_classes):
-            # vybere body příslušící k i-tému clusteru
             cluster_points = data[labels == i]
-
-            # rozdělení clusteru na podmnožiny
             num_points = len(cluster_points)
-            split_points = np.linspace(0, num_points, num_splits + 1, dtype=int)[1:-1]
-            sub_clusters = np.split(cluster_points, split_points)
+            sub_cluster_sizes = np.array_split(np.arange(num_points), 2)
+            sub_clusters = [cluster_points[indices] for indices in sub_cluster_sizes]
+            sub_centers = np.array([sub_cluster.mean(axis=0) for sub_cluster in sub_clusters])
+            sub_cluster_weights = np.array([len(sub_cluster) for sub_cluster in sub_clusters]) / float(num_points)
+            center_i = np.average(sub_centers, axis=0, weights=sub_cluster_weights)
+            new_centers.append(center_i)
 
-            # nalezení centroidu pro každou podmnožinu
-            sub_centroids = [sub_cluster.mean(axis=0) for sub_cluster in sub_clusters]
-
-            # výpočet váženého průměru podcentroidů pro i-tý cluster
-            sub_cluster_sizes = [len(sub_cluster) for sub_cluster in sub_clusters]
-            sub_cluster_weights = np.array(sub_cluster_sizes) / float(num_points)
-            centroid_i = np.average(sub_centroids, axis=0, weights=sub_cluster_weights)
-            new_centroids.append(centroid_i)
-
-        new_centroids = np.array(new_centroids)
-
-        # pokud se nové centroidy shodují s těmi předchozími, ukončit iteraci
-        if np.allclose(new_centroids, centroids):
+        new_centers = np.array(new_centers)
+        if np.allclose(new_centers, centers):
             break
 
-        centroids = new_centroids
+        centers = new_centers
     clusters = [data[labels == i] for i in range(amount_of_classes)]
-    i = 0
+
     plt.figure(figsize=(8, 8))
-    for cluster in clusters:
+    for i, cluster in enumerate(clusters):
         plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
-        i += 1
-    # plt.title("Kmeans_bin")
+    plt.title("Kmeans s nerovnoměrným binárním rozdělováním")
     plt.legend()
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.savefig("./pics/kmeans_bin.eps", format='eps', dpi=300)
+    # plt.savefig("./pics/kmeans_bin.eps", format='eps', dpi=300)
     plt.show()
+
     return clusters, labels

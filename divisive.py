@@ -4,11 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-# asi nejlepsi vec zatim
-
 def dist_matrix(data):
-    # Zkontrolovat
-    # Výpočet matice vzdáleností
     dm = np.sqrt(np.sum((data[:, np.newaxis, :] - data[np.newaxis, :, :]) ** 2, axis=2))
     return dm
 
@@ -24,7 +20,7 @@ def div_plot_get_clusters(data, index, cutoff_dist):
 
     dm = dist_matrix(data)
 
-    np.fill_diagonal(dm, np.inf)  # set diagonal to infinity
+    np.fill_diagonal(dm, np.inf)
 
     values = np.zeros(len(data) - 1)
 
@@ -62,7 +58,7 @@ def div_plot_get_clusters(data, index, cutoff_dist):
     cutoff_y_values = []
 
     plt.figure(figsize=(8, 8))
-    # plt.title('Metoda řetězové mapy')
+    plt.title('Metoda řetězové mapy')
     for i in range(0, len(values)):
         if values[i] > cutoff_dist:
             amount_of_classes += 1

@@ -1,13 +1,8 @@
 import matplotlib.pyplot as plt
-
 import numpy as np
 
 
-# from scipy.cluster.hierarchy import dendrogram
-
 def dist_matrix(data):
-    # Zkontrolovat
-    # Výpočet matice vzdáleností
     dm = np.sqrt(np.sum((data[:, np.newaxis, :] - data[np.newaxis, :, :]) ** 2, axis=2))
     return dm
 
@@ -33,6 +28,7 @@ def agg_plot_and_get_clusters(data):
         n += 1
 
     max_dist_diff = 0
+    max_dist_diff_i = 0
     for i in range(1, len(dists)):
         if max_dist_diff < np.abs(dists[i] - dists[i - 1]):
             max_dist_diff = (dists[i] - dists[i - 1])
@@ -45,17 +41,16 @@ def agg_plot_and_get_clusters(data):
     plt.figure(figsize=(8, 8))
     plt.title('Metoda shlukové hladiny')
     plt.plot(x[::-1], dists[:])
-    plt.axvline(x=amount_of_clusters, color='k', linestyle='-.', label='Počet shluků' + str(amount_of_clusters))
+    plt.axvline(x=amount_of_clusters, color='k', linestyle='-.', label='Počet shluků = ' + str(amount_of_clusters))
     plt.axhline(y=dists[-amount_of_clusters], color='r', linestyle='--',
                 label='Shluková hladina h = ' + str(dists[-amount_of_clusters]))
-    # plt.xticks(x)
     plt.yticks(np.arange(0, np.max(dists)))
     plt.xlim(1, 50)
     plt.gca().invert_xaxis()
     plt.legend(loc='upper left')
     plt.xlabel('Počet shluků')
     plt.ylabel('Vzdálenost mezi shluky')
-    plt.savefig("./pics/agg.eps", format='eps', dpi=300)
+    # plt.savefig("./pics/agg.eps", format='eps', dpi=300)
     plt.show()
 
     plt.figure(figsize=(8, 8))
@@ -64,14 +59,13 @@ def agg_plot_and_get_clusters(data):
     plt.axvline(x=amount_of_clusters, color='k', linestyle='-.', label='Počet shluků = ' + str(amount_of_clusters))
     plt.axhline(y=dists[-amount_of_clusters], color='r', linestyle='--',
                 label='Shluková hladina h = ' + str(dists[-amount_of_clusters]))
-    # plt.xticks(x)
     plt.yticks(np.arange(0, np.max(dists)))
     plt.xlim(1, 5)
     plt.gca().invert_xaxis()
     plt.legend(loc='upper left')
     plt.xlabel('Počet shluků')
     plt.ylabel('Vzdálenost mezi shluky')
-    plt.savefig("./pics/agg_zoom.eps", format='eps', dpi=300)
+    # plt.savefig("./pics/agg_zoom.eps", format='eps', dpi=300)
     plt.show()
 
     return amount_of_clusters
