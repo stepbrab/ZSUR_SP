@@ -22,7 +22,7 @@ from vector_quantization import vq_plot
 
 from k_nearest_neighbour import knn_plot
 
-# from lin_disc_func import
+from lin_disc_func import rosenblatt, constant_increment
 
 
 def load(infile):
@@ -107,8 +107,7 @@ if __name__ == "__main__":
     # knn_plot(data, labels, data, k=2)
 
     # Klasifikátor s lineárními diskriminačními funkcemi
-    ### DODELAT
-
+    #!!!!
 
     # # Neuronová síť
     # # Inicializace
