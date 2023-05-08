@@ -22,7 +22,7 @@ from vector_quantization import vq_plot
 
 from k_nearest_neighbour import knn_plot
 
-from lin_disc_func import plot_ros_and_const_incr, compare_iterations, rosenblatt, constant_increment
+# from lin_disc_func import
 
 
 def load(infile):
@@ -106,27 +106,25 @@ if __name__ == "__main__":
     # knn_plot(data, labels, data, k=1)
     # knn_plot(data, labels, data, k=2)
 
-    # # Klasifikátor s lineárními diskriminačními funkcemi !! cely predelat blbe
-    # w_rosenblatt = rosenblatt(data, labels)
-    # w_constant_increment = constant_increment(data, labels)
-    # plot_ros_and_const_incr(data, labels, w_rosenblatt, w_constant_increment)
-    # compare_iterations(data, labels)
+    # Klasifikátor s lineárními diskriminačními funkcemi
+    ### DODELAT
 
-    # Neuronová síť
-    # Inicializace
-    perceptron_batch_gd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
-    perceptron_sgd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
-    perceptron_batch_gd_multi = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1, topology='multi')
-    perceptron_sgd_multi = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1, topology='multi')
 
-    # Trénování
-    perceptron_batch_gd.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
-    perceptron_sgd.train_sgd(data, labels, num_epochs=100)
-    perceptron_batch_gd_multi.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
-    perceptron_sgd_multi.train_sgd(data, labels, num_epochs=100)
-
-    # Plot
-    perceptron_batch_gd.plot_boundary(data, labels)
-    perceptron_sgd.plot_boundary(data, labels)
-    perceptron_batch_gd_multi.plot_boundary(data, labels)
-    perceptron_sgd_multi.plot_boundary(data, labels)
+    # # Neuronová síť
+    # # Inicializace
+    # perceptron_batch_gd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
+    # perceptron_sgd = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1)
+    # perceptron_batch_gd_multi = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1, topology='multi')
+    # perceptron_sgd_multi = Perceptron(num_inputs=2, num_outputs=3, learning_rate=0.1, topology='multi')
+    #
+    # # Trénování
+    # perceptron_batch_gd.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
+    # perceptron_sgd.train_sgd(data, labels, num_epochs=100)
+    # perceptron_batch_gd_multi.train_batch_gd(data, labels, num_epochs=100, batch_size=None)
+    # perceptron_sgd_multi.train_sgd(data, labels, num_epochs=100)
+    #
+    # # Plot
+    # perceptron_batch_gd.plot_boundary(data, labels)
+    # perceptron_sgd.plot_boundary(data, labels)
+    # perceptron_batch_gd_multi.plot_boundary(data, labels)
+    # perceptron_sgd_multi.plot_boundary(data, labels)
