@@ -9,7 +9,7 @@ from maximin import mm_plot_and_get_clusters
 
 from agglomerative import dist_matrix, agg_plot_and_get_clusters
 
-from kmeans import plot_kmeans, plot_kmeans_bin
+from kmeans import plot_kmeans, plot_bin_split
 
 from perceptron import Perceptron
 
@@ -89,7 +89,7 @@ if __name__ == "__main__":
 
     # K-means
     clusters, labels = plot_kmeans(data, amount_of_classes=3)
-    clusters_bin, labels_bin = plot_kmeans_bin(data, amount_of_classes=3) #?
+    clusters_bin, labels_bin = plot_bin_split(data, amount_of_classes=3) #?
 
     # # Iterativní optimalizace
     # it_opt(clusters)
@@ -106,8 +106,8 @@ if __name__ == "__main__":
     # knn_plot(data, labels, data, k=2)
 
     # Klasifikátor s lineárními diskriminačními funkcemi
-    plot_rosenblatt(data, labels, 10)
-    plot_const_incr(data, labels, 10, 0.1)
+    # plot_rosenblatt(data, labels, 10)
+    # plot_const_incr(data, labels, 10, 0.1)
 
     # # Neuronová síť
     # # Inicializace
