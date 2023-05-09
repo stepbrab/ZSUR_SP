@@ -1,4 +1,3 @@
-import sys
 
 import numpy as np
 import random
@@ -40,8 +39,6 @@ def trian_rosenblatt(dataset, epochs):
     prubeh_ceny = []
     lastdataset = copy.deepcopy(dataset)
     for epoch in range(epochs):
-        sys.stdout.write(f'\rTraining epoch {epoch + 1}/{epochs} průměrná cena: ')  # progress bar
-        sys.stdout.flush()
         cena = 0
         random.shuffle(mixindexes)
         for index in range(len_dataset):
@@ -61,8 +58,6 @@ def trian_rosenblatt(dataset, epochs):
                 q = q.T + tempbod.T.dot(templabel)
                 cena += 1
         prubeh_ceny.append(cena)
-        sys.stdout.write(f'\rTraining epoch {epoch + 1}/{epochs} průměrná cena: {np.average(prubeh_ceny)}')
-    sys.stdout.write('\n')
     return q, prubeh_ceny
 
 
@@ -87,31 +82,33 @@ def classify_rosen(data, q):
         datalabels[i] = label
     return datalabels
 
+
 def const_incr(traindata, trainlabels, epochs=10, beta=0.1):
     pocetShluku = len(np.unique(trainlabels))
 
-    mnoziny = [traindata[trainlabels==i]for i in range(pocetShluku)]
+    mnoziny = [traindata[trainlabels == i] for i in range(pocetShluku)]
     celkovyVyvojCeny = []
-    linDiskrFcns = [[]for i in range(pocetShluku)]
-    #hledani parametru pro jednotlive rovnice
+    linDiskrFcns = [[] for i in range(pocetShluku)]
+    # hledani parametru pro jednotlive rovnice
     for i in range(pocetShluku):
-        #vyjmi dve mnoziny, mezi kterymi se bude hledat linearni funkce
+        # vyjmi dve mnoziny, mezi kterymi se bude hledat linearni funkce
         mnozina1 = mnoziny[i]
-        if i ==0:
-            j=1
-        else: j=0
+        if i == 0:
+            j = 1
+        else:
+            j = 0
         mnozina2 = mnoziny[j]
-        #hledani lin. diskr fci...nikoliv po dvojicich - nedokonceno
+        # hledani lin. diskr fci...nikoliv po dvojicich - nedokonceno
         for k in range(pocetShluku):
-            if k==i or k==j:
+            if k == i or k == j:
                 continue
-            mnozina2 = np.concatenate((mnozina2,mnoziny[k]))
+            mnozina2 = np.concatenate((mnozina2, mnoziny[k]))
 
         pocet1 = len(mnozina1)
         pocet2 = len(mnozina2)
-        #vytvoreni datasetu pro nasledne trenovani
-        datasetlabels = np.ones(pocet1+pocet2, dtype=int)
-        datasetlabels[pocet1:pocet1+pocet2] = -1
+        # vytvoreni datasetu pro nasledne trenovani
+        datasetlabels = np.ones(pocet1 + pocet2, dtype=int)
+        datasetlabels[pocet1:pocet1 + pocet2] = -1
         dataset = [np.concatenate((mnozina1, mnozina2), axis=0), datasetlabels]
         print(f"Training fcn {i}")
         tempq, prubeh_ceny = train_const_incr(dataset, epochs, beta)
@@ -119,32 +116,22 @@ def const_incr(traindata, trainlabels, epochs=10, beta=0.1):
         celkovyVyvojCeny.append(prubeh_ceny)
     return linDiskrFcns
 
+
 def train_const_incr(dataset, epochs, beta):
-    '''
-    metoda pro trenovani klasifikatoru
-    :param dataset: vstupni dataset
-    :param epochs: pocet epoch
-    :param beta: parametr beta, regulujici velikost zmeny lin. diskr. fce
-    :return: lin. diskr. fce, prubeh ceny v jednotlivych epochach
-    '''
     pocetDat = len(dataset[0])
     mixindexes = list(range(pocetDat))
-    q = np.zeros(len(dataset[0][0])+1)+1
+    q = np.zeros(len(dataset[0][0]) + 1) + 1
     prubeh_ceny = []
     lastdataset = copy.deepcopy(dataset)
     for epoch in range(epochs):
-        sys.stdout.write(f'\rTraining epoch {epoch+1}/{epochs} průměrná cena: ')  # progress bar
-        sys.stdout.flush()
         cena = 0
-        #vytvoreni zamichaneho datasetu pro kazdou epochu
         random.shuffle(mixindexes)
         for index in range(pocetDat):
             lastdataset[0][index, :] = dataset[0][mixindexes[index]]
             lastdataset[1][index] = dataset[1][mixindexes[index]]
-        #predkladani jednotlivych bodu a hledani krivky
         for i in range(pocetDat):
             tempbod = lastdataset[0][i]
-            tempbod = np.insert(tempbod,0,1)
+            tempbod = np.insert(tempbod, 0, 1)
             templabel = lastdataset[1][i]
             if q.T.dot(tempbod) >= 0:
                 w = 1
@@ -152,18 +139,14 @@ def train_const_incr(dataset, epochs, beta):
                 w = -1
 
             if w == templabel:
-                #konec
                 continue
             else:
-                b = abs(np.dot(q.T,tempbod)*templabel)/beta
-                c = (beta*b)/(np.dot(tempbod.T,tempbod))
-                q = q.T + c*tempbod.T.dot(templabel)
+                b = abs(np.dot(q.T, tempbod) * templabel) / beta
+                c = (beta * b) / (np.dot(tempbod.T, tempbod))
+                q = q.T + c * tempbod.T.dot(templabel)
                 cena += 1
         prubeh_ceny.append(cena)
-        sys.stdout.write(f'\rTraining epoch {epoch+1}/{epochs} průměrná cena: {np.average(prubeh_ceny)}')
-    sys.stdout.write('\n')
     return q, prubeh_ceny
-
 
 
 def classify_const_incr(data, q):
@@ -172,7 +155,7 @@ def classify_const_incr(data, q):
 
     for i in range(len(data)):
         bod = data[i]
-        bod = np.insert(bod,0,1)
+        bod = np.insert(bod, 0, 1)
         label = len(q)
         rozhodnuti = []
         for j in range(len(q)):
@@ -183,10 +166,11 @@ def classify_const_incr(data, q):
                 label = j
             else:
                 continue
-        if len(rozhodnuti)>1 or len(rozhodnuti)==0:
+        if len(rozhodnuti) > 1 or len(rozhodnuti) == 0:
             label = len(q)
         datalabels[i] = label
     return datalabels
+
 
 def plot_rosenblatt(data, labels, epochs=10):
     q = rosenblatt(data, labels, epochs)
@@ -229,7 +213,8 @@ def plot_rosenblatt(data, labels, epochs=10):
     plt.ylim(ymin, ymax)
     plt.show()
 
-def plot_const_incr(data, labels, epochs = 10, beta = 0.1):
+
+def plot_const_incr(data, labels, epochs=10, beta=0.1):
     q = const_incr(data, labels, epochs, beta)
     xmin, xmax = np.min(data[:, 0]), np.max(data[:, 0])
     ymin, ymax = np.min(data[:, 1]), np.max(data[:, 1])
