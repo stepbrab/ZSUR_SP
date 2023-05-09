@@ -101,9 +101,9 @@ if __name__ == "__main__":
     # # Vektorová kvantizace
     # vq_plot(data, clusters)
 
-    # # Klasifikátor podle nejbližšího souseda
-    # knn_plot(data, labels, data, k=1)
-    # knn_plot(data, labels, data, k=2)
+    # Klasifikátor podle nejbližšího souseda
+    knn_plot(data, labels, k=1)
+    knn_plot(data, labels, k=2)
 
     # Klasifikátor s lineárními diskriminačními funkcemi
     # plot_rosenblatt(data, labels, 10)

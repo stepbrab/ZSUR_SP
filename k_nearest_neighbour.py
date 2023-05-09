@@ -4,13 +4,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def knn(X_train, y_train, X_test, k=1):
+def knn(data, labels, test_data, k=1):
     y_pred = []
-    for i in range(len(X_test)):
+    for i in range(len(test_data)):
         distances = []
-        for j in range(len(X_train)):
-            distance = math.sqrt(sum([(X_test[i][k] - X_train[j][k]) ** 2 for k in range(len(X_test[i]))]))
-            distances.append((distance, y_train[j]))
+        for j in range(len(data)):
+            distance = math.sqrt(sum([(test_data[i][k] - data[j][k]) ** 2 for k in range(len(test_data[i]))]))
+            distances.append((distance, labels[j]))
         distances.sort()
         k_nearest_neighbors = distances[:k]
         k_nearest_labels = [label for (dist, label) in k_nearest_neighbors]
@@ -19,25 +19,24 @@ def knn(X_train, y_train, X_test, k=1):
     return y_pred
 
 
-def knn_plot(X_train, y_train, X_test, k=1):
-    y_pred = knn(X_train, y_train, X_test, k)
-    min_values = np.min(X_train, axis=0)
-    max_values = np.max(X_train, axis=0)
+def knn_plot(data, labels, k=1):
+    min_values = np.min(data, axis=0)
+    max_values = np.max(data, axis=0)
 
     x_values, y_values = np.meshgrid(np.linspace(min_values[0], max_values[0], 100),
                                      np.linspace(min_values[1], max_values[1], 100))
     meshgrid = np.vstack([x_values.ravel(), y_values.ravel()]).T
 
-    meshgrid_codes = knn(X_train, y_train, meshgrid, k)
+    meshgrid_codes = knn(data, labels, meshgrid, k)
     meshgrid_codes = np.array(meshgrid_codes).reshape(x_values.shape)
 
     plt.figure(figsize=(8, 8))
     plt.contourf(x_values, y_values, meshgrid_codes, alpha=0.2, levels=np.arange(3 + 1) - 0.5, cmap='jet')
 
     colors = ['red', 'blue', 'green', 'black', 'purple']
-    for i, color in zip(np.unique(y_pred), colors):
-        idx = np.where(np.array(y_pred) == i)
-        plt.scatter(np.array(X_train)[idx, 0], np.array(X_train)[idx, 1], color=color, label=f"Shluk {i + 1}")
+    for i, color in zip(np.unique(labels), colors):
+        idx = np.where(np.array(labels) == i)
+        plt.scatter(np.array(data)[idx, 0], np.array(data)[idx, 1], color=color, label=f"Shluk {i + 1}")
 
     plt.xlabel('x')
     plt.ylabel('y')
