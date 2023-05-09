@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from kmeans import kmeans
 from perceptron import Perceptron
 
 from divisive import div_plot_get_clusters
@@ -10,7 +9,7 @@ from maximin import mm_plot_and_get_clusters
 
 from agglomerative import dist_matrix, agg_plot_and_get_clusters
 
-from kmeans import kmeans, kmeans_bin
+from kmeans import plot_kmeans, plot_kmeans_bin
 
 from perceptron import Perceptron
 
@@ -89,8 +88,8 @@ if __name__ == "__main__":
     #         "Počty shluků všech metod se liší.")
 
     # K-means
-    clusters, labels = kmeans(data, amount_of_classes=3)
-    # clusters_bin, labels_bin = kmeans_bin(data, amount_of_classes=3) #?
+    clusters, labels = plot_kmeans(data, amount_of_classes=3)
+    clusters_bin, labels_bin = plot_kmeans_bin(data, amount_of_classes=3) #?
 
     # # Iterativní optimalizace
     # it_opt(clusters)

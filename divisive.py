@@ -1,19 +1,11 @@
-import time
+
 
 import numpy as np
 from matplotlib import pyplot as plt
-
-
-def dist_matrix(data):
-    dm = np.sqrt(np.sum((data[:, np.newaxis, :] - data[np.newaxis, :, :]) ** 2, axis=2))
-    return dm
+from agglomerative import dist_matrix
 
 
 def div_plot_get_clusters(data, index, cutoff_dist):
-    st = time.time()
-
-    firstIndex = index
-
     indexes = []
 
     amount_of_classes = 1

@@ -9,10 +9,9 @@ def dist_matrix(data):
 
 def mm_plot_and_get_clusters(data, q):
     dm = dist_matrix(data)
-    n = dm.shape[0]
     centers = [0]
     dist_to_centers = dm[0]
-    while len(centers) < n:
+    while len(centers) < dm.shape[0]:
         i = np.argmax(dist_to_centers)
         dist = dist_to_centers[i]
         center_distances = dm[centers, i]
