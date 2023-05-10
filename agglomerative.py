@@ -17,6 +17,7 @@ def agg_plot_and_get_clusters(data):
     n = 0
 
     while dm.shape[0] > 1:
+        print('Probíhá metoda shlukové hladiny [' + str(n) + '/' + str(len(data)) + '].')
         x, y = np.unravel_index(np.argmin(dm), dm.shape)
         min_dist = dm[x, y]
         dm[x, :] = np.minimum(dm[x, :], dm[y, :])
@@ -67,5 +68,6 @@ def agg_plot_and_get_clusters(data):
     plt.ylabel('Vzdálenost mezi shluky')
     # plt.savefig("./pics/agg_zoom.eps", format='eps', dpi=300)
     plt.show()
+    print('Hotovo.')
 
     return amount_of_clusters

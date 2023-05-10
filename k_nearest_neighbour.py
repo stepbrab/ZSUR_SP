@@ -5,6 +5,7 @@ import numpy as np
 
 
 def knn(data, labels, test_data, k=1):
+    print('Probíhá klasifikace podle nejbližšího/ch souseda/ů')
     y_pred = []
     for i in range(len(test_data)):
         distances = []

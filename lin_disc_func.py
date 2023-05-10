@@ -1,15 +1,11 @@
-
 import numpy as np
 import random
 import copy
 from matplotlib import pyplot as plt
 
 
-# legit stolen
-
-def rosenblatt(data, labels, epochs=10):
-    amount_of_clusters = len(np.unique(labels))
-    clusters = [data[labels == i] for i in range(amount_of_clusters)]
+def rosenblatt(clusters, epochs=10):
+    amount_of_clusters = len(clusters)
     lin_disc_funcns = [[] for i in range(amount_of_clusters)]
     for i in range(amount_of_clusters):
         cluster1 = clusters[i]
@@ -27,19 +23,17 @@ def rosenblatt(data, labels, epochs=10):
         datasetlabels = np.ones(len_c1 + len_c2, dtype=int)
         datasetlabels[len_c1:len_c1 + len_c2] = -1
         dataset = [np.concatenate((cluster1, cluster2), axis=0), datasetlabels]
-        tempq, prubeh_ceny = trian_rosenblatt(dataset, epochs)
+        tempq = train_rosenblatt(dataset, epochs)
         lin_disc_funcns[i].append(tempq)
     return lin_disc_funcns
 
 
-def trian_rosenblatt(dataset, epochs):
+def train_rosenblatt(dataset, epochs):
     len_dataset = len(dataset[0])
     mixindexes = list(range(len_dataset))
     q = np.zeros(len(dataset[0][0]) + 1) + 1
-    prubeh_ceny = []
     lastdataset = copy.deepcopy(dataset)
     for epoch in range(epochs):
-        cena = 0
         random.shuffle(mixindexes)
         for index in range(len_dataset):
             lastdataset[0][index, :] = dataset[0][mixindexes[index]]
@@ -56,12 +50,10 @@ def trian_rosenblatt(dataset, epochs):
                 continue
             else:
                 q = q.T + tempbod.T.dot(templabel)
-                cena += 1
-        prubeh_ceny.append(cena)
-    return q, prubeh_ceny
+    return q
 
 
-def classify_rosen(data, q):
+def classify_rosenblatt(data, q):
     datalabels = np.zeros(len(data), dtype=int) + len(q)
     q = np.asarray(q)
     for i in range(len(data)):
@@ -83,37 +75,74 @@ def classify_rosen(data, q):
     return datalabels
 
 
-def const_incr(traindata, trainlabels, epochs=10, beta=0.1):
-    pocetShluku = len(np.unique(trainlabels))
+def plot_rosenblatt(data, clusters, epochs=10):
+    q = rosenblatt(clusters, epochs)
+    xmin, xmax = np.min(data[:, 0]), np.max(data[:, 0])
+    ymin, ymax = np.min(data[:, 1]), np.max(data[:, 1])
+    x = np.linspace(xmin, xmax, 2)
+    y = []
+    q = np.asarray(q)
+    print(q)
+    for j in range(1):
+        for i in range(3):
+            y.append((-q[i][j][0] - q[i][j][1] * x) / q[i][j][2])
+    plt.figure(figsize=(8, 8))
+    for i in range(3):
+        plt.plot(x, y[i])
 
-    mnoziny = [traindata[trainlabels == i] for i in range(pocetShluku)]
-    celkovyVyvojCeny = []
-    linDiskrFcns = [[] for i in range(pocetShluku)]
-    # hledani parametru pro jednotlive rovnice
-    for i in range(pocetShluku):
-        # vyjmi dve mnoziny, mezi kterymi se bude hledat linearni funkce
-        mnozina1 = mnoziny[i]
+    min_values = np.min(data, axis=0)
+    max_values = np.max(data, axis=0)
+    x_values, y_values = np.meshgrid(np.linspace(min_values[0], max_values[0], 100),
+                                     np.linspace(min_values[1], max_values[1], 100))
+    meshgrid_points = np.vstack([x_values.ravel(), y_values.ravel()]).T
+    meshgrid_labels = classify_rosenblatt(meshgrid_points, q)
+    meshgrid_labels = meshgrid_labels.reshape(x_values.shape)
+    plt.contourf(x_values, y_values, meshgrid_labels, alpha=1, cmap='ocean')
+    for i, cluster in enumerate(clusters):
+        plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
+    plt.xlim(xmin, xmax)
+    plt.ylim(ymin, ymax)
+    plt.title('Rosenblatt - rastr')
+    # plt.savefig("./pics/rosenblatt_rastr.eps", format='eps', dpi=300)
+    plt.show()
+
+    plt.figure(figsize=(8, 8))
+    for i, cluster in enumerate(clusters):
+        plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
+    for j in range(1):
+        for i in range(3):
+            y.append((-q[i][j][0] - q[i][j][1] * x) / q[i][j][2])
+    for i in range(3):
+        plt.plot(x, y[i])
+    plt.title('Rosenblatt - lin. diskr. fce.')
+    plt.xlim(xmin, xmax)
+    plt.ylim(ymin, ymax)
+    # plt.savefig("./pics/rosenblatt_ldf.eps", format='eps', dpi=300)
+    plt.show()
+
+
+def const_incr(clusters, epochs=10, beta=0.1):
+    amount_of_classes = len(clusters)
+    linDiskrFcns = [[] for i in range(amount_of_classes)]
+    for i in range(amount_of_classes):
+        cluster1 = clusters[i]
         if i == 0:
             j = 1
         else:
             j = 0
-        mnozina2 = mnoziny[j]
-        # hledani lin. diskr fci...nikoliv po dvojicich - nedokonceno
-        for k in range(pocetShluku):
+        cluster2 = clusters[j]
+        for k in range(amount_of_classes):
             if k == i or k == j:
                 continue
-            mnozina2 = np.concatenate((mnozina2, mnoziny[k]))
+            cluster2 = np.concatenate((cluster2, clusters[k]))
 
-        pocet1 = len(mnozina1)
-        pocet2 = len(mnozina2)
-        # vytvoreni datasetu pro nasledne trenovani
-        datasetlabels = np.ones(pocet1 + pocet2, dtype=int)
-        datasetlabels[pocet1:pocet1 + pocet2] = -1
-        dataset = [np.concatenate((mnozina1, mnozina2), axis=0), datasetlabels]
-        print(f"Training fcn {i}")
-        tempq, prubeh_ceny = train_const_incr(dataset, epochs, beta)
+        len_c1 = len(cluster1)
+        len_c2 = len(cluster2)
+        datasetlabels = np.ones(len_c1 + len_c2, dtype=int)
+        datasetlabels[len_c1:len_c1 + len_c2] = -1
+        dataset = [np.concatenate((cluster1, cluster2), axis=0), datasetlabels]
+        tempq = train_const_incr(dataset, epochs, beta)
         linDiskrFcns[i].append(tempq)
-        celkovyVyvojCeny.append(prubeh_ceny)
     return linDiskrFcns
 
 
@@ -121,10 +150,8 @@ def train_const_incr(dataset, epochs, beta):
     pocetDat = len(dataset[0])
     mixindexes = list(range(pocetDat))
     q = np.zeros(len(dataset[0][0]) + 1) + 1
-    prubeh_ceny = []
     lastdataset = copy.deepcopy(dataset)
     for epoch in range(epochs):
-        cena = 0
         random.shuffle(mixindexes)
         for index in range(pocetDat):
             lastdataset[0][index, :] = dataset[0][mixindexes[index]]
@@ -142,11 +169,9 @@ def train_const_incr(dataset, epochs, beta):
                 continue
             else:
                 b = abs(np.dot(q.T, tempbod) * templabel) / beta
-                c = (beta * b) / (np.dot(tempbod.T, tempbod))
+                c = (beta * b) / np.sum(tempbod ** 2)
                 q = q.T + c * tempbod.T.dot(templabel)
-                cena += 1
-        prubeh_ceny.append(cena)
-    return q, prubeh_ceny
+    return q
 
 
 def classify_const_incr(data, q):
@@ -172,8 +197,8 @@ def classify_const_incr(data, q):
     return datalabels
 
 
-def plot_rosenblatt(data, labels, epochs=10):
-    q = rosenblatt(data, labels, epochs)
+def plot_const_incr(data, clusters, epochs=10, beta=0.1):
+    q = const_incr(clusters, epochs, beta)
     xmin, xmax = np.min(data[:, 0]), np.max(data[:, 0])
     ymin, ymax = np.min(data[:, 1]), np.max(data[:, 1])
     x = np.linspace(xmin, xmax, 2)
@@ -192,59 +217,20 @@ def plot_rosenblatt(data, labels, epochs=10):
     x_values, y_values = np.meshgrid(np.linspace(min_values[0], max_values[0], 100),
                                      np.linspace(min_values[1], max_values[1], 100))
     meshgrid_points = np.vstack([x_values.ravel(), y_values.ravel()]).T
-    meshgrid_labels = classify_rosen(meshgrid_points, q)
+    meshgrid_labels = classify_const_incr(meshgrid_points, q)
     meshgrid_labels = meshgrid_labels.reshape(x_values.shape)
     plt.contourf(x_values, y_values, meshgrid_labels, alpha=1, cmap='ocean')
-    plt.scatter(data[:, 0][:], data[:, 1][:], c=labels)
-    plt.xlim(xmin, xmax)
-    plt.ylim(ymin, ymax)
-    plt.title('Rosenblatt - rastr')
-    plt.show()
-
-    plt.figure(figsize=(8, 8))
-    plt.scatter(data[:, 0][:], data[:, 1][:], c=labels)
-    for j in range(1):
-        for i in range(3):
-            y.append((-q[i][j][0] - q[i][j][1] * x) / q[i][j][2])
-    for i in range(3):
-        plt.plot(x, y[i])
-    plt.title('Rosenblatt - lin. diskr. fce.')
-    plt.xlim(xmin, xmax)
-    plt.ylim(ymin, ymax)
-    plt.show()
-
-
-def plot_const_incr(data, labels, epochs=10, beta=0.1):
-    q = const_incr(data, labels, epochs, beta)
-    xmin, xmax = np.min(data[:, 0]), np.max(data[:, 0])
-    ymin, ymax = np.min(data[:, 1]), np.max(data[:, 1])
-    x = np.linspace(xmin, xmax, 2)
-    y = []
-    q = np.asarray(q)
-    print(q)
-    for j in range(1):
-        for i in range(3):
-            y.append((-q[i][j][0] - q[i][j][1] * x) / q[i][j][2])
-    plt.figure(figsize=(8, 8))
-    for i in range(3):
-        plt.plot(x, y[i])
-
-    min_values = np.min(data, axis=0)
-    max_values = np.max(data, axis=0)
-    x_values, y_values = np.meshgrid(np.linspace(min_values[0], max_values[0], 100),
-                                     np.linspace(min_values[1], max_values[1], 100))
-    meshgrid_points = np.vstack([x_values.ravel(), y_values.ravel()]).T
-    meshgrid_labels = classify_rosen(meshgrid_points, q)
-    meshgrid_labels = meshgrid_labels.reshape(x_values.shape)
-    plt.contourf(x_values, y_values, meshgrid_labels, alpha=1, cmap='ocean')
-    plt.scatter(data[:, 0][:], data[:, 1][:], c=labels)
+    for i, cluster in enumerate(clusters):
+        plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
     plt.xlim(xmin, xmax)
     plt.ylim(ymin, ymax)
     plt.title('Const incr - rastr')
+    # plt.savefig("./pics/const_incr_rastr.eps", format='eps', dpi=300)
     plt.show()
 
     plt.figure(figsize=(8, 8))
-    plt.scatter(data[:, 0][:], data[:, 1][:], c=labels)
+    for i, cluster in enumerate(clusters):
+        plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
     for j in range(1):
         for i in range(3):
             y.append((-q[i][j][0] - q[i][j][1] * x) / q[i][j][2])
@@ -253,4 +239,5 @@ def plot_const_incr(data, labels, epochs=10, beta=0.1):
     plt.title('Const incr - lin. diskr. fce.')
     plt.xlim(xmin, xmax)
     plt.ylim(ymin, ymax)
+    # plt.savefig("./pics/const_incr_ldf.eps", format='eps', dpi=300)
     plt.show()

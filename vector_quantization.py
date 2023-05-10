@@ -3,6 +3,7 @@ import numpy as np
 
 
 def vq(data, clusters):
+    print('Probíhá vektorová kvantizace...')
     codebook_size = len(clusters)
     codebook = np.zeros([3, 2])
     for i in range(codebook_size):

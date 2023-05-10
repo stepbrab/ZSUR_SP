@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from kmeans import kmeans
-from perceptron import Perceptron
+from neuralnetwork import Perceptron
 
 from divisive import div_plot_get_clusters
 
@@ -12,7 +12,7 @@ from agglomerative import dist_matrix, agg_plot_and_get_clusters
 
 from kmeans import kmeans, kmeans_bin
 
-from perceptron import Perceptron
+from neuralnetwork import Perceptron
 
 from iterative_opt import it_opt
 

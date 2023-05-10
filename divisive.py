@@ -17,6 +17,7 @@ def div_plot_get_clusters(data, index, cutoff_dist):
     values = np.zeros(len(data) - 1)
 
     for i in range(0, len(dm[0]) - 1):
+        print('Probíhá metoda řetězové mapy [' + str(len(indexes)) + '/' + str(len(data)) + ']')
         if i % 2 == 0:
             temp = dm[:][index]
 
@@ -69,7 +70,8 @@ def div_plot_get_clusters(data, index, cutoff_dist):
     for i in range(0, len(cutoff_x_values)):
         plt.plot(cutoff_x_values[i], cutoff_y_values[i], label=f"Cutoff vzdálenost {i + 1}")
     plt.legend()
-    plt.savefig("./pics/div.eps", format='eps', dpi=300)
+    # plt.savefig("./pics/div.eps", format='eps', dpi=300)
+    print('Hotovo.')
     plt.show()
 
     return amount_of_classes

@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 
 def kmeans(data, amount_of_classes):
     centers = data[np.random.choice(len(data), amount_of_classes, replace=False)]
+    print('Probíhá k-means...')
     while True:
         distances = np.sqrt(((data - centers[:, np.newaxis]) ** 2).sum(axis=2))
         labels = np.argmin(distances, axis=0)
@@ -45,6 +46,7 @@ def plot_bin_split(data, amount_of_classes):
 
 
 def bin_split(data, amount_of_classes):
+    print('Probíhá nerovnoměrné binární dělení...')
     clusters = []
     temp_data = np.array(data)
     prev_indices = np.arange(len(data))

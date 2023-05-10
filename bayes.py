@@ -7,6 +7,7 @@ def normal_density(x, mean, variance):
 
 
 def bayes(data, clusters):
+    print('Probíhá Bayesova klasifikace...')
     means = [np.mean(c, axis=0) for c in clusters]
     variances = [np.var(c, axis=0) for c in clusters]
     num_classes = len(clusters)
