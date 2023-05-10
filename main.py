@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # Načtení dat
     data = load("data.txt")
     print(len(data))
-    data = data[::10]  # Zmenšení objemu dat pro rychlejší výpočty
+    # data = data[::10]  # Zmenšení objemu dat pro rychlejší výpočty
 
     dm = dist_matrix(data)
 
