@@ -34,7 +34,7 @@ def plot_bayes(data, clusters):
     predicted_classes = classify_bayes(meshgrid_points, means, variances)
     meshgrid_classes = predicted_classes.reshape(x_values.shape)
     plt.figure(figsize=(8, 8))
-    plt.contourf(x_values, y_values, meshgrid_classes, alpha=0.2, levels=np.arange(num_classes + 1) - 0.5, cmap='jet')
+    plt.contourf(x_values, y_values, meshgrid_classes, alpha=0.2, levels=np.arange(num_classes + 1) - 0.5, cmap='ocean')
     for i in range(num_classes):
         plt.scatter(clusters[i][:, 0], clusters[i][:, 1], label=f"Shluk {i + 1}")
     plt.xlim(min_values[0], max_values[0])
@@ -43,4 +43,5 @@ def plot_bayes(data, clusters):
     plt.ylabel('y')
     plt.legend()
     plt.title('Bayesův klasifikátor')
+    # plt.savefig("./pics/bayes.eps", format='eps', dpi=300)
     plt.show()

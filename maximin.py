@@ -1,10 +1,6 @@
 import numpy as np
-from matplotlib import pyplot as plt
-
-
-def dist_matrix(data):
-    dm = np.sqrt(np.sum((data[:, np.newaxis, :] - data[np.newaxis, :, :]) ** 2, axis=2))
-    return dm
+# from matplotlib import pyplot as plt
+from agglomerative import dist_matrix
 
 
 def mm_get_clusters(data, q):
@@ -40,7 +36,7 @@ def mm_get_clusters(data, q):
     # plt.scatter(data[centers][:, 0], data[centers][:, 1], marker="x", s=100, linewidth=3, color="black",
     #             label="Středy")
     # plt.legend()
-    # # plt.savefig("./pics/mm.eps", format='eps', dpi=300)
+    # plt.savefig("./pics/mm.eps", format='eps', dpi=300)
     # plt.show()
 
     amount_of_clusters = len(centers)

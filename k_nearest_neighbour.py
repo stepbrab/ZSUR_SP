@@ -32,16 +32,15 @@ def knn_plot(data, labels, k=1):
     meshgrid_codes = np.array(meshgrid_codes).reshape(x_values.shape)
 
     plt.figure(figsize=(8, 8))
-    plt.contourf(x_values, y_values, meshgrid_codes, alpha=0.2, levels=np.arange(3 + 1) - 0.5, cmap='jet')
+    plt.contourf(x_values, y_values, meshgrid_codes, alpha=0.2, levels=np.arange(3 + 1) - 0.5, cmap='ocean')
 
-    colors = ['red', 'blue', 'green', 'black', 'purple']
-    for i, color in zip(np.unique(labels), colors):
+    for i in (np.unique(labels)):
         idx = np.where(np.array(labels) == i)
-        plt.scatter(np.array(data)[idx, 0], np.array(data)[idx, 1], color=color, label=f"Shluk {i + 1}")
+        plt.scatter(np.array(data)[idx, 0], np.array(data)[idx, 1], label=f"Shluk {i + 1}")
 
     plt.xlabel('x')
     plt.ylabel('y')
     plt.title("Klasifikátor podle nejbližšího souseda, počet sousedů k = " + str(k))
     plt.legend(loc='best')
-    # plt.savefig("./pics/knn_k=2.eps", format='eps', dpi=300)
+    # plt.savefig("./pics/knn.eps", format='eps', dpi=300)
     plt.show()

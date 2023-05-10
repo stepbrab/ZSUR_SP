@@ -30,7 +30,7 @@ def vq_plot(data, clusters):
     meshgrid_codes = meshgrid_codes.reshape(x_values.shape)
     plt.figure(figsize=(8, 8))
     plt.contourf(x_values, y_values, meshgrid_codes, alpha=0.2, levels=np.arange(codebook_size + 1) - 0.5,
-                 cmap='jet')
+                 cmap='ocean')
     for i in range(codebook_size):
         plt.scatter(clusters[i][:, 0], clusters[i][:, 1], label=f"Shluk {i + 1}")
     plt.scatter(codebook[:, 0], codebook[:, 1], marker='x', c='k', label="Vektory kódové knihy")
@@ -38,4 +38,5 @@ def vq_plot(data, clusters):
     plt.ylabel('y')
     plt.legend()
     plt.title("Vektorová kvantizace")
+    # plt.savefig("./pics/vq.eps", format='eps', dpi=300)
     plt.show()

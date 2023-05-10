@@ -51,14 +51,14 @@ def plot_data(data):
     plt.scatter(data[:, 0][:], data[:, 1][:])
     plt.xlabel('x')
     plt.ylabel('y')
-    # plt.savefig("./pics/data.eps", format='eps', dpi=300)
+    plt.savefig("./pics/data.eps", format='eps', dpi=300)
     plt.show()
 
 
 if __name__ == "__main__":
     # Načtení dat
     data = load("data.txt")
-    print(len(data))
+
     # data = data[::10]  # Zmenšení objemu dat pro rychlejší výpočty
 
     dm = dist_matrix(data)
@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
     cutoff_dist = np.mean(dm) * 0.93
     if len(data) > 5000:
-        index = 100
+        index = 1000
     else:
         index = 10  # pro menší data
     amount_of_classes_div = div_plot_get_clusters(data, index, cutoff_dist)
@@ -85,7 +85,8 @@ if __name__ == "__main__":
     amount_of_classes = amount_of_classes_agg
 
     # K-means
-    clusters, labels = plot_kmeans(data, amount_of_classes=3)  # Může se stát, že klasifikace proběhne špatně, protože kmeans začíná s náhodnými středy
+    clusters, labels = plot_kmeans(data,
+                                   amount_of_classes=3)  # Může se stát, že klasifikace proběhne špatně, protože kmeans začíná s náhodnými středy
     clusters_bin, labels_bin = plot_bin_split(data, amount_of_classes=3)
 
     # Iterativní optimalizace
@@ -126,6 +127,5 @@ if __name__ == "__main__":
     perceptron_sgd = Perceptron()
     perceptron_sgd.train_batch_gd(data, labels, num_epochs=100, batch_size=16)
     perceptron_sgd.plot_boundary(data, labels, title='Perceptron_batch_gd')
-
 
     print('Konec')

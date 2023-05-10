@@ -43,7 +43,7 @@ def it_opt(clusters):
         print("J hodnota se nezměnila, rozdělení již bylo optimální. Vykresluji výsledek...")
     else:
         print("J hodnota se změnila z ", J_1, " na ", improved_J,
-              ". Doseženo optimálního rozdělení, vykresluji výsledek...")
+              ". Dosaženo optimálního rozdělení.")
     # plt.figure(figsize=(8, 8))
     # i = 0
     # for cluster in clusters:
