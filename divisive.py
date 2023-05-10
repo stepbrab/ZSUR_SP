@@ -17,7 +17,7 @@ def div_plot_get_clusters(data, index, cutoff_dist):
     values = np.zeros(len(data) - 1)
 
     for i in range(0, len(dm[0]) - 1):
-        print('Probíhá metoda řetězové mapy [' + str(len(indexes)) + '/' + str(len(data)) + ']')
+        print('Probíhá metoda řetězové mapy [' + str(len(indexes)) + '/' + str(len(data)) + '].')
         if i % 2 == 0:
             temp = dm[:][index]
 

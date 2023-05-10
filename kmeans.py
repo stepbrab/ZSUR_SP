@@ -36,7 +36,7 @@ def plot_bin_split(data, amount_of_classes):
     plt.figure(figsize=(8, 8))
     for i, cluster in enumerate(clusters):
         plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
-    plt.title("Kmeans s nerovnoměrným binárním rozdělováním")
+    plt.title("Nerovnoměrné binární dělení")
     plt.legend()
     plt.xlabel('x')
     plt.ylabel('y')

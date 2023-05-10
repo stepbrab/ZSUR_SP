@@ -3,10 +3,11 @@ import numpy as np
 
 
 class Perceptron:
-    def __init__(self, num_inputs, num_outputs, learning_rate=0.1):
+    def __init__(self, num_inputs=2, num_outputs=3, learning_rate=0.1):
         self.weights = np.random.randn(num_inputs, num_outputs)
         self.bias = np.zeros(num_outputs)
         self.learning_rate = learning_rate
+        print('Spouští se Perceptron...')
 
     def predict(self, inputs):
         weighted_sum = np.dot(inputs, self.weights) + self.bias

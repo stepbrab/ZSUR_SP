@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def knn(data, labels, test_data, k=1):
-    print('Probíhá klasifikace podle nejbližšího/ch souseda/ů')
+def knn_train_and_classify(data, labels, test_data, k=1):
+    print('Probíhá klasifikace podle k = ' + str(k) + ' nejbližšího/ch souseda/ů')
     y_pred = []
     for i in range(len(test_data)):
         distances = []
@@ -28,7 +28,7 @@ def knn_plot(data, labels, k=1):
                                      np.linspace(min_values[1], max_values[1], 100))
     meshgrid = np.vstack([x_values.ravel(), y_values.ravel()]).T
 
-    meshgrid_codes = knn(data, labels, meshgrid, k)
+    meshgrid_codes = knn_train_and_classify(data, labels, meshgrid, k)
     meshgrid_codes = np.array(meshgrid_codes).reshape(x_values.shape)
 
     plt.figure(figsize=(8, 8))
