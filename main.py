@@ -58,8 +58,8 @@ def plot_data(data):
 if __name__ == "__main__":
     # Načtení dat
     data = load("data.txt")
-
-    # data = data[::10]  # Zmenšení objemu dat pro rychlejší výpočty
+    print(len(data))
+    data = data[::10]  # Zmenšení objemu dat pro rychlejší výpočty
 
     dm = dist_matrix(data)
 
@@ -70,24 +70,18 @@ if __name__ == "__main__":
     amount_of_classes_agg = agg_plot_and_get_clusters(data)
     print("Počet shluků odhadnut metodou shlukové hladiny: ", amount_of_classes_agg)
 
-    cutoff_dist = np.mean(dm) * len(dm) / 8000
-    # cutoff_dist = np.mean(dm) * len(dm) / 800  # pro menší data
-    index = 1000
-    # index = 10 # pro menší data
+    cutoff_dist = np.mean(dm) * 0.93
+    if len(data) > 5000:
+        index = 100
+    else:
+        index = 10  # pro menší data
     amount_of_classes_div = div_plot_get_clusters(data, index, cutoff_dist)
     print("Počet shluků odhadnut metodou řetězové mapy: ", amount_of_classes_div)
 
     q = 0.95
-    # q = 0.3 # pro menší data
     amount_of_classes_mm = mm_get_clusters(data, q)
     print("Počet shluků odhadnut metodou maximin: ", amount_of_classes_mm)
 
-    # Test shodnosti výsledků všech metod
-    if amount_of_classes_agg == amount_of_classes_div == amount_of_classes_mm:
-        print("Počty shluků všech metod se shodují. Počet shluků je:", amount_of_classes_agg)
-    else:
-        print(
-            "Počty shluků všech metod se liší.")
     amount_of_classes = amount_of_classes_agg
 
     # K-means
