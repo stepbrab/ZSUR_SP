@@ -51,7 +51,7 @@ def plot_data(data):
     plt.scatter(data[:, 0][:], data[:, 1][:])
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.savefig("./pics/data.eps", format='eps', dpi=300)
+    # plt.savefig("./pics/data.eps", format='eps', dpi=300)
     plt.show()
 
 
