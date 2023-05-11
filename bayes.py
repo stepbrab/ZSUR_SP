@@ -18,9 +18,8 @@ def classify_bayes(data, means, variances, apriors):
 
 def train_bayes(clusters):
     print('Bayesův klasifikátor se trénuje...')
-    len_each_cluster = sum(len(c) for c in clusters)
-    print(len_each_cluster)
-    apriors = [len(c) / len_each_cluster for c in clusters]  # Výpočet apriorních pravděpodobností
+    len_data = sum(len(c) for c in clusters)
+    apriors = [len(c) / len_data for c in clusters]  # Výpočet apriorních pravděpodobností
     means = [np.mean(c, axis=0) for c in clusters]
     variances = [np.var(c, axis=0) for c in clusters]
     return means, variances, apriors
