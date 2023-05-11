@@ -2,10 +2,11 @@ import numpy as np
 
 from matplotlib import pyplot as plt
 
+from iterative_opt import get_J
+
 
 def kmeans(data, amount_of_classes):
     centers = data[np.random.choice(len(data), amount_of_classes, replace=False)]
-    print('Probíhá k-means...')
     while True:
         distances = np.sqrt(((data - centers[:, np.newaxis]) ** 2).sum(axis=2))
         labels = np.argmin(distances, axis=0)
@@ -18,7 +19,9 @@ def kmeans(data, amount_of_classes):
 
 
 def plot_kmeans(data, amount_of_classes):
+    print('Probíhá k-means...')
     clusters, labels = kmeans(data, amount_of_classes)
+    print('Hodnota kriteria J = ' + str(get_J(clusters)))
     plt.figure(figsize=(8, 8))
     for i, cluster in enumerate(clusters):
         plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
@@ -32,7 +35,9 @@ def plot_kmeans(data, amount_of_classes):
 
 
 def plot_bin_split(data, amount_of_classes):
+    print('Probíhá nerovnoměrné binární dělení...')
     clusters, labels = bin_split(data, amount_of_classes)
+    print('Hodnota kriteria J = ' + str(get_J(clusters)))
     plt.figure(figsize=(8, 8))
     for i, cluster in enumerate(clusters):
         plt.scatter(cluster[:, 0], cluster[:, 1], label=f"Shluk {i + 1}")
@@ -46,7 +51,6 @@ def plot_bin_split(data, amount_of_classes):
 
 
 def bin_split(data, amount_of_classes):
-    print('Probíhá nerovnoměrné binární dělení...')
     clusters = []
     temp_data = np.array(data)
     prev_indices = np.arange(len(data))

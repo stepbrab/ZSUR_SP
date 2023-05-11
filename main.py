@@ -54,6 +54,11 @@ def plot_data(data):
     plt.savefig("./pics/data.eps", format='eps', dpi=300)
     plt.show()
 
+def normalize_data(data):
+    min_vals = np.min(data, axis=0)
+    max_vals = np.max(data, axis=0)
+    normalized_data = (data - min_vals) / (max_vals - min_vals)
+    return normalized_data
 
 if __name__ == "__main__":
     # Načtení dat
@@ -61,28 +66,30 @@ if __name__ == "__main__":
 
     # data = data[::10]  # Zmenšení objemu dat pro rychlejší výpočty
 
+    data = normalize_data(data)
+
     dm = dist_matrix(data)
 
     # Vykreslení původních dat
     plot_data(data)
 
-    # Výpočet počtů shluků a ploty výsledků
-    amount_of_classes_agg = agg_plot_and_get_clusters(data)
-    print("Počet shluků odhadnut metodou shlukové hladiny: ", amount_of_classes_agg)
-
-    cutoff_dist = np.mean(dm) * 0.93
-    if len(data) > 5000:
-        index = 1000
-    else:
-        index = 10  # pro menší data
-    amount_of_classes_div = div_plot_get_clusters(data, index, cutoff_dist)
-    print("Počet shluků odhadnut metodou řetězové mapy: ", amount_of_classes_div)
-
-    q = 0.95
-    amount_of_classes_mm = mm_get_clusters(data, q)
-    print("Počet shluků odhadnut metodou maximin: ", amount_of_classes_mm)
-
-    amount_of_classes = amount_of_classes_agg
+    # # Výpočet počtů shluků a ploty výsledků
+    # amount_of_classes_agg = agg_plot_and_get_clusters(data)
+    # print("Počet shluků odhadnut metodou shlukové hladiny: ", amount_of_classes_agg)
+    #
+    # cutoff_dist = np.mean(dm) * 0.93
+    # if len(data) > 5000:
+    #     index = 1000
+    # else:
+    #     index = 10  # pro menší data
+    # amount_of_classes_div = div_plot_get_clusters(data, index, cutoff_dist)
+    # print("Počet shluků odhadnut metodou řetězové mapy: ", amount_of_classes_div)
+    #
+    # q = 0.95
+    # amount_of_classes_mm = mm_get_clusters(data, q)
+    # print("Počet shluků odhadnut metodou maximin: ", amount_of_classes_mm)
+    #
+    # amount_of_classes = amount_of_classes_agg
 
     # K-means
     clusters, labels = plot_kmeans(data,
@@ -104,28 +111,33 @@ if __name__ == "__main__":
         labels = labels_bin
 
     # Bayesův klasifikátor
-    plot_bayes(data, clusters)
-
-    # Vektorová kvantizace
-    vq_plot(data, clusters)
-
-    # Klasifikátor podle nejbližšího souseda
-    knn_plot(data, labels, k=1)
-    knn_plot(data, labels, k=2)
+    # plot_bayes(data, clusters)
+    #
+    # # Vektorová kvantizace
+    # vq_plot(data, clusters)
+    #
+    # # Klasifikátor podle nejbližšího souseda
+    # knn_plot(data, labels, k=1)
+    # knn_plot(data, labels, k=2)
 
     # Klasifikátor s lineárními diskriminačními funkcemi
-    plot_rosenblatt(data, clusters, 50)
-    plot_const_incr(data, clusters, 200, 0.1)
+    plot_rosenblatt(data, clusters)
+    plot_const_incr(data, clusters, 1000, 0.01)
+    plot_const_incr(data, clusters, 1000, 0.05)
+    plot_const_incr(data, clusters, 1000, 0.1)
+    plot_const_incr(data, clusters, 1000, 0.2)
+    plot_const_incr(data, clusters, 1000, 0.5)
+    plot_const_incr(data, clusters, 1000, 1)
 
-    # Neuronová síť
-    # Trénování SGD
-    perceptron_sgd = Perceptron()
-    perceptron_sgd.train_sgd(data, labels, num_epochs=100)
-    perceptron_sgd.plot_boundary(data, labels, title='Perceptron_sgd')
-
-    # Trénování batch_GD
-    perceptron_sgd = Perceptron()
-    perceptron_sgd.train_batch_gd(data, labels, num_epochs=100, batch_size=16)
-    perceptron_sgd.plot_boundary(data, labels, title='Perceptron_batch_gd')
+    # # Neuronová síť
+    # # Trénování SGD
+    # perceptron_sgd = Perceptron()
+    # perceptron_sgd.train_sgd(data, labels, num_epochs=100)
+    # perceptron_sgd.plot_boundary(data, labels, title='Perceptron_sgd')
+    #
+    # # Trénování batch_GD
+    # perceptron_sgd = Perceptron()
+    # perceptron_sgd.train_batch_gd(data, labels, num_epochs=100, batch_size=16)
+    # perceptron_sgd.plot_boundary(data, labels, title='Perceptron_batch_gd')
 
     print('Konec')

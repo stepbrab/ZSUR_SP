@@ -1,7 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-
 def classify(data, q):
     data_labels = np.zeros(len(data), dtype=int) + len(q)
     q = np.asarray(q)
@@ -41,13 +40,14 @@ def rosenblatt(clusters, epochs=10):
 def train_rosenblatt(dataset, epochs):
     len_dataset = len(dataset[0])
     q = np.zeros(len(dataset[0][0]) + 1) + 1
+    prev_q = q.copy()  # Uložit předchozí hodnotu lineární diskriminační funkce
     for epoch in range(epochs):
         mixindexes = np.random.permutation(len_dataset)
-        dataset[0] = dataset[0][mixindexes]
-        dataset[1] = dataset[1][mixindexes]
+        shuffled_data = dataset[0][mixindexes]
+        shuffled_labels = dataset[1][mixindexes]
         for i in range(len_dataset):
-            temp_point = np.insert(dataset[0][i], 0, 1)
-            temp_label = dataset[1][i]
+            temp_point = np.insert(shuffled_data[i], 0, 1)
+            temp_label = shuffled_labels[i]
             if q.T.dot(temp_point) >= 0:
                 w = 1
             else:
@@ -56,6 +56,14 @@ def train_rosenblatt(dataset, epochs):
                 continue
             else:
                 q = q.T + temp_point.T.dot(temp_label)
+
+        # Porovnat s předchozí hodnotou lineární diskriminační funkce
+        if np.array_equal(q, prev_q):
+            print(epoch)
+            break  # Konec trénování, funkce se již nemění
+        else:
+            prev_q = q.copy()  # Aktualizovat předchozí hodnotu
+
     return q
 
 
@@ -142,7 +150,7 @@ def train_const_incr(dataset, epochs, beta):
     len_dataset = len(dataset[0])
 
     q = np.zeros(len(dataset[0][0]) + 1) + 1
-
+    prev_q = q.copy()  # Uložit předchozí hodnotu lineární diskriminační funkce
     for epoch in range(epochs):
         mix_indexes = np.random.permutation(len_dataset)
         dataset[0] = dataset[0][mix_indexes]
@@ -163,6 +171,13 @@ def train_const_incr(dataset, epochs, beta):
                 b = abs(np.dot(q.T, temp_point) * temp_label) / beta
                 c = (beta * b) / (np.linalg.norm(temp_point) ** 2)
                 q = q.T + c * temp_point.T.dot(temp_label)
+
+        # Porovnat s předchozí hodnotou lineární diskriminační funkce
+        if np.array_equal(q, prev_q):
+            print(epoch)
+            break  # Konec trénování, funkce se již nemění
+        else:
+            prev_q = q.copy()  # Aktualizovat předchozí hodnotu
 
     return q
 

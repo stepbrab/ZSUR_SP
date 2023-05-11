@@ -4,20 +4,41 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def knn_train_and_classify(data, labels, test_data, k=1):
+# def knn_train_and_classify(data, labels, test_data, k): # Takhle jsem to měl původně
+#     print('Probíhá klasifikace podle k = ' + str(k) + ' nejbližšího/ch souseda/ů')
+#     y_pred = []
+#     for i in range(len(test_data)):
+#         distances = []
+#         for j in range(len(data)):
+#             distance = math.sqrt(sum([(test_data[i][k] - data[j][k]) ** 2 for k in range(len(test_data[i]))]))
+#             distances.append((distance, labels[j]))
+#         distances.sort()
+#         k_nearest_neighbors = distances[:k]
+#         k_nearest_labels = [label for (dist, label) in k_nearest_neighbors]
+#         most_common_label = max(set(k_nearest_labels), key=k_nearest_labels.count)
+#         y_pred.append(most_common_label)
+#     return y_pred
+
+def knn_train_and_classify(train_data, train_labels, test_data, k):
     print('Probíhá klasifikace podle k = ' + str(k) + ' nejbližšího/ch souseda/ů')
-    y_pred = []
-    for i in range(len(test_data)):
-        distances = []
-        for j in range(len(data)):
-            distance = math.sqrt(sum([(test_data[i][k] - data[j][k]) ** 2 for k in range(len(test_data[i]))]))
-            distances.append((distance, labels[j]))
-        distances.sort()
-        k_nearest_neighbors = distances[:k]
-        k_nearest_labels = [label for (dist, label) in k_nearest_neighbors]
-        most_common_label = max(set(k_nearest_labels), key=k_nearest_labels.count)
-        y_pred.append(most_common_label)
-    return y_pred
+    test_data_labels = np.zeros(len(test_data), dtype=int)
+    clusters = [train_data[train_labels == i] for i in range(len(np.unique(train_labels)))]
+
+    for i, test_point in enumerate(test_data):
+        min_distances = []
+
+        for cluster in clusters:
+            distances = np.zeros(len(cluster))
+
+            for j, train_point in enumerate(cluster):
+                distances[j] = np.linalg.norm(test_point - train_point)
+
+            distances = np.sort(distances)
+            min_distances.append(np.average(distances[0:k]))
+
+        test_data_labels[i] = np.argmin(min_distances)
+
+    return test_data_labels
 
 
 def knn_plot(data, labels, k=1):
